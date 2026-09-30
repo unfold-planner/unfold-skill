@@ -1,0 +1,29 @@
+{
+  "skill_name": "unfold",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "add 'renew passport' to my unfold list, due end of next week, and 'call the accountant' for tomorrow at 2pm, should take about 20 min",
+      "expected_output": "Two tasks exist: 'renew passport' with a deadline at the end of next week and no session, and 'call the accountant' with a 14:00 session tomorrow lasting 20 minutes (estimate 20). Times are taken from status's clock, not the agent's. The reply says what was added in plain words.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "I've got three things for the product launch: write the announcement (about 2 hours), record a demo video (1 hour), and update the pricing FAQ (45 min). Can you put them in Unfold under a Launch project and find time for them on Thursday and Friday? I'm free mornings.",
+      "expected_output": "The agent reads status and the existing sessions for Thursday and Friday, proposes a plan (task, day, time) and waits for agreement before writing, or clearly flags that it can't see meetings. After agreement: a Launch project (reused if one exists), three tasks in it with estimates 120, 60 and 45, sessions in the mornings that don't overlap each other or existing sessions.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "the dentist thing is done, and get rid of the old 'buy printer ink' task. also are my changes syncing to my phone?",
+      "expected_output": "The dentist task is completed (not deleted); the printer ink task is deleted after being found by search (asking first only if several match or it is ambiguous). The answer about syncing follows the sync state: signed out means saved on this computer only, with a pointer to signing in inside the app on Premium; it does not claim to sign the user in.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "what do I have planned for today and tomorrow? anything without a time yet?",
+      "expected_output": "The agent lists sessions in today's and tomorrow's range from status's clock, and unscheduled open tasks, in plain words with local times. It changes nothing.",
+      "files": []
+    }
+  ]
+}

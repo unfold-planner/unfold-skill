@@ -1,0 +1,4646 @@
+{
+  "contract": 1,
+  "timeZone": "Europe/Warsaw",
+  "appVersion": "0.1.0",
+  "scenes": [
+    {
+      "name": "signed out",
+      "steps": [
+        {
+          "name": "version touches nothing",
+          "given": {
+            "now": "2026-10-01T07:40:00Z",
+            "account": null,
+            "appRunning": false
+          },
+          "args": [
+            "version"
+          ],
+          "exit": 0,
+          "stdout": {
+            "contract": 1,
+            "app": {
+              "platform": "$PLATFORM",
+              "version": "0.1.0"
+            }
+          },
+          "stderr": null
+        },
+        {
+          "name": "status, signed out",
+          "args": [
+            "status"
+          ],
+          "exit": 0,
+          "stdout": {
+            "contract": 1,
+            "app": {
+              "platform": "$PLATFORM",
+              "version": "0.1.0",
+              "running": false
+            },
+            "account": null,
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 0
+            },
+            "timeZone": "Europe/Warsaw",
+            "now": "2026-10-01T09:40:00+02:00"
+          },
+          "stderr": null
+        },
+        {
+          "name": "no tasks yet",
+          "args": [
+            "tasks",
+            "list"
+          ],
+          "exit": 0,
+          "stdout": {
+            "tasks": []
+          },
+          "stderr": null
+        },
+        {
+          "name": "no projects yet",
+          "args": [
+            "projects",
+            "list"
+          ],
+          "exit": 0,
+          "stdout": {
+            "projects": []
+          },
+          "stderr": null
+        },
+        {
+          "name": "a project's name is trimmed, and it takes the first color",
+          "given": {
+            "ids": [
+              "00000000-0000-4000-8000-0000000000a1"
+            ]
+          },
+          "args": [
+            "projects",
+            "add",
+            "--name",
+            "  Launch  "
+          ],
+          "exit": 0,
+          "stdout": {
+            "project": {
+              "id": "00000000-0000-4000-8000-0000000000a1",
+              "name": "Launch",
+              "color": "#4f8ef7",
+              "openTasks": 0
+            },
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 1
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createProject",
+              "id": "00000000-0000-4000-8000-0000000000a1",
+              "body": {
+                "id": "00000000-0000-4000-8000-0000000000a1",
+                "name": "Launch",
+                "color": "#4f8ef7"
+              }
+            }
+          ]
+        },
+        {
+          "name": "a color by name",
+          "given": {
+            "ids": [
+              "00000000-0000-4000-8000-0000000000a2"
+            ]
+          },
+          "args": [
+            "projects",
+            "add",
+            "--name",
+            "Personal",
+            "--color",
+            "green"
+          ],
+          "exit": 0,
+          "stdout": {
+            "project": {
+              "id": "00000000-0000-4000-8000-0000000000a2",
+              "name": "Personal",
+              "color": "#3fb86a",
+              "openTasks": 0
+            },
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 2
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createProject",
+              "id": "00000000-0000-4000-8000-0000000000a2",
+              "body": {
+                "id": "00000000-0000-4000-8000-0000000000a2",
+                "name": "Personal",
+                "color": "#3fb86a"
+              }
+            }
+          ]
+        },
+        {
+          "name": "a color as #rrggbb is saved lowercase",
+          "given": {
+            "ids": [
+              "00000000-0000-4000-8000-0000000000a3"
+            ]
+          },
+          "args": [
+            "projects",
+            "add",
+            "--name",
+            "Learning",
+            "--color",
+            "#AABBCC"
+          ],
+          "exit": 0,
+          "stdout": {
+            "project": {
+              "id": "00000000-0000-4000-8000-0000000000a3",
+              "name": "Learning",
+              "color": "#aabbcc",
+              "openTasks": 0
+            },
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 3
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createProject",
+              "id": "00000000-0000-4000-8000-0000000000a3",
+              "body": {
+                "id": "00000000-0000-4000-8000-0000000000a3",
+                "name": "Learning",
+                "color": "#aabbcc"
+              }
+            }
+          ]
+        },
+        {
+          "name": "without a color, the first one no project uses",
+          "given": {
+            "ids": [
+              "00000000-0000-4000-8000-0000000000a4"
+            ]
+          },
+          "args": [
+            "projects",
+            "add",
+            "--name",
+            "Health"
+          ],
+          "exit": 0,
+          "stdout": {
+            "project": {
+              "id": "00000000-0000-4000-8000-0000000000a4",
+              "name": "Health",
+              "color": "#e8893a",
+              "openTasks": 0
+            },
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 4
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createProject",
+              "id": "00000000-0000-4000-8000-0000000000a4",
+              "body": {
+                "id": "00000000-0000-4000-8000-0000000000a4",
+                "name": "Health",
+                "color": "#e8893a"
+              }
+            }
+          ]
+        },
+        {
+          "name": "a task with notes, a project and an estimate, not on the calendar",
+          "given": {
+            "now": "2026-10-01T07:41:00Z",
+            "ids": [
+              "00000000-0000-4000-8000-000000000001"
+            ]
+          },
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "Write launch post",
+            "--project",
+            "00000000-0000-4000-8000-0000000000a1",
+            "--estimate",
+            "90",
+            "--notes",
+            "Outline first"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000001",
+              "title": "Write launch post",
+              "notes": "Outline first",
+              "completed": false,
+              "project": {
+                "id": "00000000-0000-4000-8000-0000000000a1",
+                "name": "Launch"
+              },
+              "estimateMinutes": 90,
+              "sessions": [],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:41:00+02:00"
+            },
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 5
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createTodo",
+              "id": "00000000-0000-4000-8000-000000000001",
+              "body": {
+                "id": "00000000-0000-4000-8000-000000000001",
+                "title": "Write launch post",
+                "description": "Outline first",
+                "projectId": "00000000-0000-4000-8000-0000000000a1",
+                "estimatedMinutes": 90,
+                "createdAt": "2026-10-01T07:41:00.000Z"
+              }
+            }
+          ]
+        },
+        {
+          "name": "a session from local times",
+          "given": {
+            "now": "2026-10-01T07:42:00Z",
+            "ids": [
+              "00000000-0000-4000-8000-000000000002"
+            ]
+          },
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "Record demo",
+            "--start",
+            "2026-10-02T09:00",
+            "--end",
+            "2026-10-02T10:00"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000002",
+              "title": "Record demo",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": null,
+              "sessions": [
+                {
+                  "start": "2026-10-02T09:00:00+02:00",
+                  "end": "2026-10-02T10:00:00+02:00",
+                  "allDay": false
+                }
+              ],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:42:00+02:00"
+            },
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 6
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createTodo",
+              "id": "00000000-0000-4000-8000-000000000002",
+              "body": {
+                "id": "00000000-0000-4000-8000-000000000002",
+                "title": "Record demo",
+                "startsAt": "2026-10-02T07:00:00.000Z",
+                "endsAt": "2026-10-02T08:00:00.000Z",
+                "createdAt": "2026-10-01T07:42:00.000Z"
+              }
+            }
+          ]
+        },
+        {
+          "name": "without an end, a session lasts the estimate, and the end is saved",
+          "given": {
+            "now": "2026-10-01T07:43:00Z",
+            "ids": [
+              "00000000-0000-4000-8000-000000000003"
+            ]
+          },
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "Pricing FAQ",
+            "--start",
+            "2026-10-02T10:30:00+02:00",
+            "--estimate",
+            "75"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000003",
+              "title": "Pricing FAQ",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": 75,
+              "sessions": [
+                {
+                  "start": "2026-10-02T10:30:00+02:00",
+                  "end": "2026-10-02T11:45:00+02:00",
+                  "allDay": false
+                }
+              ],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:43:00+02:00"
+            },
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 7
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createTodo",
+              "id": "00000000-0000-4000-8000-000000000003",
+              "body": {
+                "id": "00000000-0000-4000-8000-000000000003",
+                "title": "Pricing FAQ",
+                "startsAt": "2026-10-02T08:30:00.000Z",
+                "endsAt": "2026-10-02T09:45:00.000Z",
+                "estimatedMinutes": 75,
+                "createdAt": "2026-10-01T07:43:00.000Z"
+              }
+            }
+          ]
+        },
+        {
+          "name": "without an end or an estimate, 30 minutes; --name=value works too",
+          "given": {
+            "now": "2026-10-01T07:44:00Z",
+            "ids": [
+              "00000000-0000-4000-8000-000000000004"
+            ]
+          },
+          "args": [
+            "tasks",
+            "add",
+            "--title=Press list",
+            "--start=2026-10-02T12:00:00Z"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "title": "Press list",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": null,
+              "sessions": [
+                {
+                  "start": "2026-10-02T14:00:00+02:00",
+                  "end": "2026-10-02T14:30:00+02:00",
+                  "allDay": false
+                }
+              ],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:44:00+02:00"
+            },
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 8
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createTodo",
+              "id": "00000000-0000-4000-8000-000000000004",
+              "body": {
+                "id": "00000000-0000-4000-8000-000000000004",
+                "title": "Press list",
+                "startsAt": "2026-10-02T12:00:00.000Z",
+                "endsAt": "2026-10-02T12:30:00.000Z",
+                "createdAt": "2026-10-01T07:44:00.000Z"
+              }
+            }
+          ]
+        },
+        {
+          "name": "a date-only session runs from the day's midnight to its last second",
+          "given": {
+            "now": "2026-10-01T07:45:00Z",
+            "ids": [
+              "00000000-0000-4000-8000-000000000005"
+            ]
+          },
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "Book dentist",
+            "--day",
+            "2026-10-05",
+            "--project",
+            "00000000-0000-4000-8000-0000000000a2"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000005",
+              "title": "Book dentist",
+              "notes": null,
+              "completed": false,
+              "project": {
+                "id": "00000000-0000-4000-8000-0000000000a2",
+                "name": "Personal"
+              },
+              "estimateMinutes": null,
+              "sessions": [
+                {
+                  "start": "2026-10-05",
+                  "end": "2026-10-05",
+                  "allDay": true
+                }
+              ],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:45:00+02:00"
+            },
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 9
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createTodo",
+              "id": "00000000-0000-4000-8000-000000000005",
+              "body": {
+                "id": "00000000-0000-4000-8000-000000000005",
+                "title": "Book dentist",
+                "startsAt": "2026-10-04T22:00:00.000Z",
+                "endsAt": "2026-10-05T21:59:59.000Z",
+                "projectId": "00000000-0000-4000-8000-0000000000a2",
+                "createdAt": "2026-10-01T07:45:00.000Z"
+              }
+            }
+          ]
+        },
+        {
+          "name": "a deadline is an end without a start",
+          "given": {
+            "now": "2026-10-01T07:46:00Z",
+            "ids": [
+              "00000000-0000-4000-8000-000000000006"
+            ]
+          },
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "Send launch email",
+            "--deadline",
+            "2026-10-09T17:00",
+            "--project",
+            "00000000-0000-4000-8000-0000000000a1"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000006",
+              "title": "Send launch email",
+              "notes": null,
+              "completed": false,
+              "project": {
+                "id": "00000000-0000-4000-8000-0000000000a1",
+                "name": "Launch"
+              },
+              "estimateMinutes": null,
+              "sessions": [],
+              "deadline": "2026-10-09T17:00:00+02:00",
+              "createdAt": "2026-10-01T09:46:00+02:00"
+            },
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 10
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createTodo",
+              "id": "00000000-0000-4000-8000-000000000006",
+              "body": {
+                "id": "00000000-0000-4000-8000-000000000006",
+                "title": "Send launch email",
+                "endsAt": "2026-10-09T15:00:00.000Z",
+                "projectId": "00000000-0000-4000-8000-0000000000a1",
+                "createdAt": "2026-10-01T07:46:00.000Z"
+              }
+            }
+          ]
+        },
+        {
+          "name": "a deadline on a day is its last second, in that day's offset",
+          "given": {
+            "now": "2026-10-01T07:47:00Z",
+            "ids": [
+              "00000000-0000-4000-8000-000000000007"
+            ]
+          },
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "File taxes",
+            "--deadline",
+            "2026-10-31"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000007",
+              "title": "File taxes",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": null,
+              "sessions": [],
+              "deadline": "2026-10-31T23:59:59+01:00",
+              "createdAt": "2026-10-01T09:47:00+02:00"
+            },
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 11
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createTodo",
+              "id": "00000000-0000-4000-8000-000000000007",
+              "body": {
+                "id": "00000000-0000-4000-8000-000000000007",
+                "title": "File taxes",
+                "endsAt": "2026-10-31T22:59:59.000Z",
+                "createdAt": "2026-10-01T07:47:00.000Z"
+              }
+            }
+          ]
+        },
+        {
+          "name": "open tasks, newest first",
+          "args": [
+            "tasks",
+            "list"
+          ],
+          "exit": 0,
+          "stdout": {
+            "tasks": [
+              {
+                "id": "00000000-0000-4000-8000-000000000007",
+                "title": "File taxes",
+                "notes": null,
+                "completed": false,
+                "project": null,
+                "estimateMinutes": null,
+                "sessions": [],
+                "deadline": "2026-10-31T23:59:59+01:00",
+                "createdAt": "2026-10-01T09:47:00+02:00"
+              },
+              {
+                "id": "00000000-0000-4000-8000-000000000006",
+                "title": "Send launch email",
+                "notes": null,
+                "completed": false,
+                "project": {
+                  "id": "00000000-0000-4000-8000-0000000000a1",
+                  "name": "Launch"
+                },
+                "estimateMinutes": null,
+                "sessions": [],
+                "deadline": "2026-10-09T17:00:00+02:00",
+                "createdAt": "2026-10-01T09:46:00+02:00"
+              },
+              {
+                "id": "00000000-0000-4000-8000-000000000005",
+                "title": "Book dentist",
+                "notes": null,
+                "completed": false,
+                "project": {
+                  "id": "00000000-0000-4000-8000-0000000000a2",
+                  "name": "Personal"
+                },
+                "estimateMinutes": null,
+                "sessions": [
+                  {
+                    "start": "2026-10-05",
+                    "end": "2026-10-05",
+                    "allDay": true
+                  }
+                ],
+                "deadline": null,
+                "createdAt": "2026-10-01T09:45:00+02:00"
+              },
+              {
+                "id": "00000000-0000-4000-8000-000000000004",
+                "title": "Press list",
+                "notes": null,
+                "completed": false,
+                "project": null,
+                "estimateMinutes": null,
+                "sessions": [
+                  {
+                    "start": "2026-10-02T14:00:00+02:00",
+                    "end": "2026-10-02T14:30:00+02:00",
+                    "allDay": false
+                  }
+                ],
+                "deadline": null,
+                "createdAt": "2026-10-01T09:44:00+02:00"
+              },
+              {
+                "id": "00000000-0000-4000-8000-000000000003",
+                "title": "Pricing FAQ",
+                "notes": null,
+                "completed": false,
+                "project": null,
+                "estimateMinutes": 75,
+                "sessions": [
+                  {
+                    "start": "2026-10-02T10:30:00+02:00",
+                    "end": "2026-10-02T11:45:00+02:00",
+                    "allDay": false
+                  }
+                ],
+                "deadline": null,
+                "createdAt": "2026-10-01T09:43:00+02:00"
+              },
+              {
+                "id": "00000000-0000-4000-8000-000000000002",
+                "title": "Record demo",
+                "notes": null,
+                "completed": false,
+                "project": null,
+                "estimateMinutes": null,
+                "sessions": [
+                  {
+                    "start": "2026-10-02T09:00:00+02:00",
+                    "end": "2026-10-02T10:00:00+02:00",
+                    "allDay": false
+                  }
+                ],
+                "deadline": null,
+                "createdAt": "2026-10-01T09:42:00+02:00"
+              },
+              {
+                "id": "00000000-0000-4000-8000-000000000001",
+                "title": "Write launch post",
+                "notes": "Outline first",
+                "completed": false,
+                "project": {
+                  "id": "00000000-0000-4000-8000-0000000000a1",
+                  "name": "Launch"
+                },
+                "estimateMinutes": 90,
+                "sessions": [],
+                "deadline": null,
+                "createdAt": "2026-10-01T09:41:00+02:00"
+              }
+            ]
+          },
+          "stderr": null
+        },
+        {
+          "name": "one day, whole: --to a day runs to the day's end",
+          "args": [
+            "tasks",
+            "list",
+            "--from",
+            "2026-10-02",
+            "--to",
+            "2026-10-02"
+          ],
+          "exit": 0,
+          "stdout": {
+            "tasks": [
+              {
+                "id": "00000000-0000-4000-8000-000000000004",
+                "title": "Press list",
+                "notes": null,
+                "completed": false,
+                "project": null,
+                "estimateMinutes": null,
+                "sessions": [
+                  {
+                    "start": "2026-10-02T14:00:00+02:00",
+                    "end": "2026-10-02T14:30:00+02:00",
+                    "allDay": false
+                  }
+                ],
+                "deadline": null,
+                "createdAt": "2026-10-01T09:44:00+02:00"
+              },
+              {
+                "id": "00000000-0000-4000-8000-000000000003",
+                "title": "Pricing FAQ",
+                "notes": null,
+                "completed": false,
+                "project": null,
+                "estimateMinutes": 75,
+                "sessions": [
+                  {
+                    "start": "2026-10-02T10:30:00+02:00",
+                    "end": "2026-10-02T11:45:00+02:00",
+                    "allDay": false
+                  }
+                ],
+                "deadline": null,
+                "createdAt": "2026-10-01T09:43:00+02:00"
+              },
+              {
+                "id": "00000000-0000-4000-8000-000000000002",
+                "title": "Record demo",
+                "notes": null,
+                "completed": false,
+                "project": null,
+                "estimateMinutes": null,
+                "sessions": [
+                  {
+                    "start": "2026-10-02T09:00:00+02:00",
+                    "end": "2026-10-02T10:00:00+02:00",
+                    "allDay": false
+                  }
+                ],
+                "deadline": null,
+                "createdAt": "2026-10-01T09:42:00+02:00"
+              }
+            ]
+          },
+          "stderr": null
+        },
+        {
+          "name": "--to a time stops there",
+          "args": [
+            "tasks",
+            "list",
+            "--from",
+            "2026-10-02",
+            "--to",
+            "2026-10-02T14:00"
+          ],
+          "exit": 0,
+          "stdout": {
+            "tasks": [
+              {
+                "id": "00000000-0000-4000-8000-000000000003",
+                "title": "Pricing FAQ",
+                "notes": null,
+                "completed": false,
+                "project": null,
+                "estimateMinutes": 75,
+                "sessions": [
+                  {
+                    "start": "2026-10-02T10:30:00+02:00",
+                    "end": "2026-10-02T11:45:00+02:00",
+                    "allDay": false
+                  }
+                ],
+                "deadline": null,
+                "createdAt": "2026-10-01T09:43:00+02:00"
+              },
+              {
+                "id": "00000000-0000-4000-8000-000000000002",
+                "title": "Record demo",
+                "notes": null,
+                "completed": false,
+                "project": null,
+                "estimateMinutes": null,
+                "sessions": [
+                  {
+                    "start": "2026-10-02T09:00:00+02:00",
+                    "end": "2026-10-02T10:00:00+02:00",
+                    "allDay": false
+                  }
+                ],
+                "deadline": null,
+                "createdAt": "2026-10-01T09:42:00+02:00"
+              }
+            ]
+          },
+          "stderr": null
+        },
+        {
+          "name": "a range keeps date-only sessions and deadlines in it",
+          "args": [
+            "tasks",
+            "list",
+            "--from",
+            "2026-10-05T00:00",
+            "--to",
+            "2026-10-09"
+          ],
+          "exit": 0,
+          "stdout": {
+            "tasks": [
+              {
+                "id": "00000000-0000-4000-8000-000000000006",
+                "title": "Send launch email",
+                "notes": null,
+                "completed": false,
+                "project": {
+                  "id": "00000000-0000-4000-8000-0000000000a1",
+                  "name": "Launch"
+                },
+                "estimateMinutes": null,
+                "sessions": [],
+                "deadline": "2026-10-09T17:00:00+02:00",
+                "createdAt": "2026-10-01T09:46:00+02:00"
+              },
+              {
+                "id": "00000000-0000-4000-8000-000000000005",
+                "title": "Book dentist",
+                "notes": null,
+                "completed": false,
+                "project": {
+                  "id": "00000000-0000-4000-8000-0000000000a2",
+                  "name": "Personal"
+                },
+                "estimateMinutes": null,
+                "sessions": [
+                  {
+                    "start": "2026-10-05",
+                    "end": "2026-10-05",
+                    "allDay": true
+                  }
+                ],
+                "deadline": null,
+                "createdAt": "2026-10-01T09:45:00+02:00"
+              }
+            ]
+          },
+          "stderr": null
+        },
+        {
+          "name": "a day's deadline, at its last second, is on that day",
+          "args": [
+            "tasks",
+            "list",
+            "--from",
+            "2026-10-31",
+            "--to",
+            "2026-10-31"
+          ],
+          "exit": 0,
+          "stdout": {
+            "tasks": [
+              {
+                "id": "00000000-0000-4000-8000-000000000007",
+                "title": "File taxes",
+                "notes": null,
+                "completed": false,
+                "project": null,
+                "estimateMinutes": null,
+                "sessions": [],
+                "deadline": "2026-10-31T23:59:59+01:00",
+                "createdAt": "2026-10-01T09:47:00+02:00"
+              }
+            ]
+          },
+          "stderr": null
+        },
+        {
+          "name": "the day before a date-only session ends before it",
+          "args": [
+            "tasks",
+            "list",
+            "--from",
+            "2026-10-03",
+            "--to",
+            "2026-10-04"
+          ],
+          "exit": 0,
+          "stdout": {
+            "tasks": []
+          },
+          "stderr": null
+        },
+        {
+          "name": "tasks with no session",
+          "args": [
+            "tasks",
+            "list",
+            "--unscheduled"
+          ],
+          "exit": 0,
+          "stdout": {
+            "tasks": [
+              {
+                "id": "00000000-0000-4000-8000-000000000007",
+                "title": "File taxes",
+                "notes": null,
+                "completed": false,
+                "project": null,
+                "estimateMinutes": null,
+                "sessions": [],
+                "deadline": "2026-10-31T23:59:59+01:00",
+                "createdAt": "2026-10-01T09:47:00+02:00"
+              },
+              {
+                "id": "00000000-0000-4000-8000-000000000006",
+                "title": "Send launch email",
+                "notes": null,
+                "completed": false,
+                "project": {
+                  "id": "00000000-0000-4000-8000-0000000000a1",
+                  "name": "Launch"
+                },
+                "estimateMinutes": null,
+                "sessions": [],
+                "deadline": "2026-10-09T17:00:00+02:00",
+                "createdAt": "2026-10-01T09:46:00+02:00"
+              },
+              {
+                "id": "00000000-0000-4000-8000-000000000001",
+                "title": "Write launch post",
+                "notes": "Outline first",
+                "completed": false,
+                "project": {
+                  "id": "00000000-0000-4000-8000-0000000000a1",
+                  "name": "Launch"
+                },
+                "estimateMinutes": 90,
+                "sessions": [],
+                "deadline": null,
+                "createdAt": "2026-10-01T09:41:00+02:00"
+              }
+            ]
+          },
+          "stderr": null
+        },
+        {
+          "name": "a project's tasks",
+          "args": [
+            "tasks",
+            "list",
+            "--project",
+            "00000000-0000-4000-8000-0000000000a1"
+          ],
+          "exit": 0,
+          "stdout": {
+            "tasks": [
+              {
+                "id": "00000000-0000-4000-8000-000000000006",
+                "title": "Send launch email",
+                "notes": null,
+                "completed": false,
+                "project": {
+                  "id": "00000000-0000-4000-8000-0000000000a1",
+                  "name": "Launch"
+                },
+                "estimateMinutes": null,
+                "sessions": [],
+                "deadline": "2026-10-09T17:00:00+02:00",
+                "createdAt": "2026-10-01T09:46:00+02:00"
+              },
+              {
+                "id": "00000000-0000-4000-8000-000000000001",
+                "title": "Write launch post",
+                "notes": "Outline first",
+                "completed": false,
+                "project": {
+                  "id": "00000000-0000-4000-8000-0000000000a1",
+                  "name": "Launch"
+                },
+                "estimateMinutes": 90,
+                "sessions": [],
+                "deadline": null,
+                "createdAt": "2026-10-01T09:41:00+02:00"
+              }
+            ]
+          },
+          "stderr": null
+        },
+        {
+          "name": "tasks in no project",
+          "args": [
+            "tasks",
+            "list",
+            "--project",
+            "none"
+          ],
+          "exit": 0,
+          "stdout": {
+            "tasks": [
+              {
+                "id": "00000000-0000-4000-8000-000000000007",
+                "title": "File taxes",
+                "notes": null,
+                "completed": false,
+                "project": null,
+                "estimateMinutes": null,
+                "sessions": [],
+                "deadline": "2026-10-31T23:59:59+01:00",
+                "createdAt": "2026-10-01T09:47:00+02:00"
+              },
+              {
+                "id": "00000000-0000-4000-8000-000000000004",
+                "title": "Press list",
+                "notes": null,
+                "completed": false,
+                "project": null,
+                "estimateMinutes": null,
+                "sessions": [
+                  {
+                    "start": "2026-10-02T14:00:00+02:00",
+                    "end": "2026-10-02T14:30:00+02:00",
+                    "allDay": false
+                  }
+                ],
+                "deadline": null,
+                "createdAt": "2026-10-01T09:44:00+02:00"
+              },
+              {
+                "id": "00000000-0000-4000-8000-000000000003",
+                "title": "Pricing FAQ",
+                "notes": null,
+                "completed": false,
+                "project": null,
+                "estimateMinutes": 75,
+                "sessions": [
+                  {
+                    "start": "2026-10-02T10:30:00+02:00",
+                    "end": "2026-10-02T11:45:00+02:00",
+                    "allDay": false
+                  }
+                ],
+                "deadline": null,
+                "createdAt": "2026-10-01T09:43:00+02:00"
+              },
+              {
+                "id": "00000000-0000-4000-8000-000000000002",
+                "title": "Record demo",
+                "notes": null,
+                "completed": false,
+                "project": null,
+                "estimateMinutes": null,
+                "sessions": [
+                  {
+                    "start": "2026-10-02T09:00:00+02:00",
+                    "end": "2026-10-02T10:00:00+02:00",
+                    "allDay": false
+                  }
+                ],
+                "deadline": null,
+                "createdAt": "2026-10-01T09:42:00+02:00"
+              }
+            ]
+          },
+          "stderr": null
+        },
+        {
+          "name": "a search ignores case",
+          "args": [
+            "tasks",
+            "list",
+            "--search",
+            "LAUNCH"
+          ],
+          "exit": 0,
+          "stdout": {
+            "tasks": [
+              {
+                "id": "00000000-0000-4000-8000-000000000006",
+                "title": "Send launch email",
+                "notes": null,
+                "completed": false,
+                "project": {
+                  "id": "00000000-0000-4000-8000-0000000000a1",
+                  "name": "Launch"
+                },
+                "estimateMinutes": null,
+                "sessions": [],
+                "deadline": "2026-10-09T17:00:00+02:00",
+                "createdAt": "2026-10-01T09:46:00+02:00"
+              },
+              {
+                "id": "00000000-0000-4000-8000-000000000001",
+                "title": "Write launch post",
+                "notes": "Outline first",
+                "completed": false,
+                "project": {
+                  "id": "00000000-0000-4000-8000-0000000000a1",
+                  "name": "Launch"
+                },
+                "estimateMinutes": 90,
+                "sessions": [],
+                "deadline": null,
+                "createdAt": "2026-10-01T09:41:00+02:00"
+              }
+            ]
+          },
+          "stderr": null
+        },
+        {
+          "name": "filters combine",
+          "args": [
+            "tasks",
+            "list",
+            "--unscheduled",
+            "--project",
+            "00000000-0000-4000-8000-0000000000a1",
+            "--from",
+            "2026-10-09",
+            "--to",
+            "2026-10-09"
+          ],
+          "exit": 0,
+          "stdout": {
+            "tasks": [
+              {
+                "id": "00000000-0000-4000-8000-000000000006",
+                "title": "Send launch email",
+                "notes": null,
+                "completed": false,
+                "project": {
+                  "id": "00000000-0000-4000-8000-0000000000a1",
+                  "name": "Launch"
+                },
+                "estimateMinutes": null,
+                "sessions": [],
+                "deadline": "2026-10-09T17:00:00+02:00",
+                "createdAt": "2026-10-01T09:46:00+02:00"
+              }
+            ]
+          },
+          "stderr": null
+        },
+        {
+          "name": "one task",
+          "args": [
+            "tasks",
+            "show",
+            "00000000-0000-4000-8000-000000000002"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000002",
+              "title": "Record demo",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": null,
+              "sessions": [
+                {
+                  "start": "2026-10-02T09:00:00+02:00",
+                  "end": "2026-10-02T10:00:00+02:00",
+                  "allDay": false
+                }
+              ],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:42:00+02:00"
+            }
+          },
+          "stderr": null
+        },
+        {
+          "name": "projects in the sidebar's order, with their open tasks",
+          "args": [
+            "projects",
+            "list"
+          ],
+          "exit": 0,
+          "stdout": {
+            "projects": [
+              {
+                "id": "00000000-0000-4000-8000-0000000000a1",
+                "name": "Launch",
+                "color": "#4f8ef7",
+                "openTasks": 2
+              },
+              {
+                "id": "00000000-0000-4000-8000-0000000000a2",
+                "name": "Personal",
+                "color": "#3fb86a",
+                "openTasks": 1
+              },
+              {
+                "id": "00000000-0000-4000-8000-0000000000a3",
+                "name": "Learning",
+                "color": "#aabbcc",
+                "openTasks": 0
+              },
+              {
+                "id": "00000000-0000-4000-8000-0000000000a4",
+                "name": "Health",
+                "color": "#e8893a",
+                "openTasks": 0
+              }
+            ]
+          },
+          "stderr": null
+        },
+        {
+          "name": "everything waits for a sign-in",
+          "args": [
+            "status"
+          ],
+          "exit": 0,
+          "stdout": {
+            "contract": 1,
+            "app": {
+              "platform": "$PLATFORM",
+              "version": "0.1.0",
+              "running": false
+            },
+            "account": null,
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 11
+            },
+            "timeZone": "Europe/Warsaw",
+            "now": "2026-10-01T09:47:00+02:00"
+          },
+          "stderr": null
+        }
+      ]
+    },
+    {
+      "name": "premium with the app running",
+      "steps": [
+        {
+          "name": "status, signed in on Premium with Unfold running",
+          "given": {
+            "now": "2026-10-01T07:40:00Z",
+            "account": {
+              "userId": "user_a",
+              "email": "ada@example.com",
+              "plan": "premium"
+            },
+            "appRunning": true
+          },
+          "args": [
+            "status"
+          ],
+          "exit": 0,
+          "stdout": {
+            "contract": 1,
+            "app": {
+              "platform": "$PLATFORM",
+              "version": "0.1.0",
+              "running": true
+            },
+            "account": {
+              "email": "ada@example.com",
+              "plan": "premium"
+            },
+            "sync": {
+              "state": "syncing",
+              "reason": null,
+              "pendingChanges": 0
+            },
+            "timeZone": "Europe/Warsaw",
+            "now": "2026-10-01T09:40:00+02:00"
+          },
+          "stderr": null
+        },
+        {
+          "name": "a new project is sent, and the app told",
+          "given": {
+            "ids": [
+              "00000000-0000-4000-8000-0000000000a1"
+            ]
+          },
+          "args": [
+            "projects",
+            "add",
+            "--name",
+            "Launch"
+          ],
+          "exit": 0,
+          "stdout": {
+            "project": {
+              "id": "00000000-0000-4000-8000-0000000000a1",
+              "name": "Launch",
+              "color": "#4f8ef7",
+              "openTasks": 0
+            },
+            "sync": {
+              "state": "syncing",
+              "reason": null,
+              "pendingChanges": 1
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createProject",
+              "id": "00000000-0000-4000-8000-0000000000a1",
+              "body": {
+                "id": "00000000-0000-4000-8000-0000000000a1",
+                "name": "Launch",
+                "color": "#4f8ef7"
+              }
+            }
+          ],
+          "notified": 1
+        },
+        {
+          "name": "a new task",
+          "given": {
+            "ids": [
+              "00000000-0000-4000-8000-000000000001"
+            ]
+          },
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "Write launch post",
+            "--estimate",
+            "90"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000001",
+              "title": "Write launch post",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": 90,
+              "sessions": [],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:40:00+02:00"
+            },
+            "sync": {
+              "state": "syncing",
+              "reason": null,
+              "pendingChanges": 2
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createTodo",
+              "id": "00000000-0000-4000-8000-000000000001",
+              "body": {
+                "id": "00000000-0000-4000-8000-000000000001",
+                "title": "Write launch post",
+                "estimatedMinutes": 90,
+                "createdAt": "2026-10-01T07:40:00.000Z"
+              }
+            }
+          ],
+          "notified": 1
+        },
+        {
+          "name": "several changes are one entry; notes are trimmed",
+          "args": [
+            "tasks",
+            "update",
+            "00000000-0000-4000-8000-000000000001",
+            "--title",
+            "Write the launch post",
+            "--notes",
+            "  Outline first.  ",
+            "--project",
+            "00000000-0000-4000-8000-0000000000a1"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000001",
+              "title": "Write the launch post",
+              "notes": "Outline first.",
+              "completed": false,
+              "project": {
+                "id": "00000000-0000-4000-8000-0000000000a1",
+                "name": "Launch"
+              },
+              "estimateMinutes": 90,
+              "sessions": [],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:40:00+02:00"
+            },
+            "sync": {
+              "state": "syncing",
+              "reason": null,
+              "pendingChanges": 3
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "updateTodo",
+              "id": "00000000-0000-4000-8000-000000000001",
+              "body": {
+                "title": "Write the launch post",
+                "description": "Outline first.",
+                "projectId": "00000000-0000-4000-8000-0000000000a1"
+              }
+            }
+          ],
+          "notified": 1
+        },
+        {
+          "name": "blank notes and none clear",
+          "args": [
+            "tasks",
+            "update",
+            "00000000-0000-4000-8000-000000000001",
+            "--notes",
+            "",
+            "--project",
+            "none",
+            "--estimate",
+            "none"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000001",
+              "title": "Write the launch post",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": null,
+              "sessions": [],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:40:00+02:00"
+            },
+            "sync": {
+              "state": "syncing",
+              "reason": null,
+              "pendingChanges": 4
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "updateTodo",
+              "id": "00000000-0000-4000-8000-000000000001",
+              "body": {
+                "description": null,
+                "projectId": null,
+                "estimatedMinutes": null
+              }
+            }
+          ],
+          "notified": 1
+        },
+        {
+          "name": "an estimate",
+          "args": [
+            "tasks",
+            "update",
+            "00000000-0000-4000-8000-000000000001",
+            "--estimate",
+            "45"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000001",
+              "title": "Write the launch post",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": 45,
+              "sessions": [],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:40:00+02:00"
+            },
+            "sync": {
+              "state": "syncing",
+              "reason": null,
+              "pendingChanges": 5
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "updateTodo",
+              "id": "00000000-0000-4000-8000-000000000001",
+              "body": {
+                "estimatedMinutes": 45
+              }
+            }
+          ],
+          "notified": 1
+        },
+        {
+          "name": "a change that changes nothing writes nothing and tells nobody",
+          "args": [
+            "tasks",
+            "update",
+            "00000000-0000-4000-8000-000000000001",
+            "--estimate",
+            "45"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000001",
+              "title": "Write the launch post",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": 45,
+              "sessions": [],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:40:00+02:00"
+            },
+            "sync": {
+              "state": "syncing",
+              "reason": null,
+              "pendingChanges": 5
+            }
+          },
+          "stderr": null
+        },
+        {
+          "name": "scheduling without an end uses the task's estimate",
+          "args": [
+            "tasks",
+            "schedule",
+            "00000000-0000-4000-8000-000000000001",
+            "--start",
+            "2026-10-02T09:00"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000001",
+              "title": "Write the launch post",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": 45,
+              "sessions": [
+                {
+                  "start": "2026-10-02T09:00:00+02:00",
+                  "end": "2026-10-02T09:45:00+02:00",
+                  "allDay": false
+                }
+              ],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:40:00+02:00"
+            },
+            "sync": {
+              "state": "syncing",
+              "reason": null,
+              "pendingChanges": 6
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "updateTodo",
+              "id": "00000000-0000-4000-8000-000000000001",
+              "body": {
+                "startsAt": "2026-10-02T07:00:00.000Z",
+                "endsAt": "2026-10-02T07:45:00.000Z"
+              }
+            }
+          ],
+          "notified": 1
+        },
+        {
+          "name": "moving a session sends both ends",
+          "args": [
+            "tasks",
+            "schedule",
+            "00000000-0000-4000-8000-000000000001",
+            "--start",
+            "2026-10-02T13:00",
+            "--end",
+            "2026-10-02T15:30"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000001",
+              "title": "Write the launch post",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": 45,
+              "sessions": [
+                {
+                  "start": "2026-10-02T13:00:00+02:00",
+                  "end": "2026-10-02T15:30:00+02:00",
+                  "allDay": false
+                }
+              ],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:40:00+02:00"
+            },
+            "sync": {
+              "state": "syncing",
+              "reason": null,
+              "pendingChanges": 7
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "updateTodo",
+              "id": "00000000-0000-4000-8000-000000000001",
+              "body": {
+                "startsAt": "2026-10-02T11:00:00.000Z",
+                "endsAt": "2026-10-02T13:30:00.000Z"
+              }
+            }
+          ],
+          "notified": 1
+        },
+        {
+          "name": "a task with a session can't take a deadline",
+          "args": [
+            "tasks",
+            "update",
+            "00000000-0000-4000-8000-000000000001",
+            "--deadline",
+            "2026-10-09"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "invalid",
+              "message": "This task has time on the calendar, so it can't have a deadline. Unschedule it first."
+            }
+          }
+        },
+        {
+          "name": "and has none to clear",
+          "args": [
+            "tasks",
+            "update",
+            "00000000-0000-4000-8000-000000000001",
+            "--deadline",
+            "none"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000001",
+              "title": "Write the launch post",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": 45,
+              "sessions": [
+                {
+                  "start": "2026-10-02T13:00:00+02:00",
+                  "end": "2026-10-02T15:30:00+02:00",
+                  "allDay": false
+                }
+              ],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:40:00+02:00"
+            },
+            "sync": {
+              "state": "syncing",
+              "reason": null,
+              "pendingChanges": 7
+            }
+          },
+          "stderr": null
+        },
+        {
+          "name": "a date-only session",
+          "args": [
+            "tasks",
+            "schedule",
+            "00000000-0000-4000-8000-000000000001",
+            "--day",
+            "2026-10-06"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000001",
+              "title": "Write the launch post",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": 45,
+              "sessions": [
+                {
+                  "start": "2026-10-06",
+                  "end": "2026-10-06",
+                  "allDay": true
+                }
+              ],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:40:00+02:00"
+            },
+            "sync": {
+              "state": "syncing",
+              "reason": null,
+              "pendingChanges": 8
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "updateTodo",
+              "id": "00000000-0000-4000-8000-000000000001",
+              "body": {
+                "startsAt": "2026-10-05T22:00:00.000Z",
+                "endsAt": "2026-10-06T21:59:59.000Z"
+              }
+            }
+          ],
+          "notified": 1
+        },
+        {
+          "name": "unscheduling clears both ends",
+          "args": [
+            "tasks",
+            "unschedule",
+            "00000000-0000-4000-8000-000000000001"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000001",
+              "title": "Write the launch post",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": 45,
+              "sessions": [],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:40:00+02:00"
+            },
+            "sync": {
+              "state": "syncing",
+              "reason": null,
+              "pendingChanges": 9
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "updateTodo",
+              "id": "00000000-0000-4000-8000-000000000001",
+              "body": {
+                "startsAt": null,
+                "endsAt": null
+              }
+            }
+          ],
+          "notified": 1
+        },
+        {
+          "name": "unscheduling a task with no session changes nothing",
+          "args": [
+            "tasks",
+            "unschedule",
+            "00000000-0000-4000-8000-000000000001"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000001",
+              "title": "Write the launch post",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": 45,
+              "sessions": [],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:40:00+02:00"
+            },
+            "sync": {
+              "state": "syncing",
+              "reason": null,
+              "pendingChanges": 9
+            }
+          },
+          "stderr": null
+        },
+        {
+          "name": "a deadline on a day",
+          "args": [
+            "tasks",
+            "update",
+            "00000000-0000-4000-8000-000000000001",
+            "--deadline",
+            "2026-10-09"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000001",
+              "title": "Write the launch post",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": 45,
+              "sessions": [],
+              "deadline": "2026-10-09T23:59:59+02:00",
+              "createdAt": "2026-10-01T09:40:00+02:00"
+            },
+            "sync": {
+              "state": "syncing",
+              "reason": null,
+              "pendingChanges": 10
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "updateTodo",
+              "id": "00000000-0000-4000-8000-000000000001",
+              "body": {
+                "endsAt": "2026-10-09T21:59:59.000Z"
+              }
+            }
+          ],
+          "notified": 1
+        },
+        {
+          "name": "unscheduling keeps a deadline",
+          "args": [
+            "tasks",
+            "unschedule",
+            "00000000-0000-4000-8000-000000000001"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000001",
+              "title": "Write the launch post",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": 45,
+              "sessions": [],
+              "deadline": "2026-10-09T23:59:59+02:00",
+              "createdAt": "2026-10-01T09:40:00+02:00"
+            },
+            "sync": {
+              "state": "syncing",
+              "reason": null,
+              "pendingChanges": 10
+            }
+          },
+          "stderr": null
+        },
+        {
+          "name": "clearing the deadline",
+          "args": [
+            "tasks",
+            "update",
+            "00000000-0000-4000-8000-000000000001",
+            "--deadline",
+            "none"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000001",
+              "title": "Write the launch post",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": 45,
+              "sessions": [],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:40:00+02:00"
+            },
+            "sync": {
+              "state": "syncing",
+              "reason": null,
+              "pendingChanges": 11
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "updateTodo",
+              "id": "00000000-0000-4000-8000-000000000001",
+              "body": {
+                "endsAt": null
+              }
+            }
+          ],
+          "notified": 1
+        },
+        {
+          "name": "a deadline at a time",
+          "args": [
+            "tasks",
+            "update",
+            "00000000-0000-4000-8000-000000000001",
+            "--deadline",
+            "2026-10-09T17:00"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000001",
+              "title": "Write the launch post",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": 45,
+              "sessions": [],
+              "deadline": "2026-10-09T17:00:00+02:00",
+              "createdAt": "2026-10-01T09:40:00+02:00"
+            },
+            "sync": {
+              "state": "syncing",
+              "reason": null,
+              "pendingChanges": 12
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "updateTodo",
+              "id": "00000000-0000-4000-8000-000000000001",
+              "body": {
+                "endsAt": "2026-10-09T15:00:00.000Z"
+              }
+            }
+          ],
+          "notified": 1
+        },
+        {
+          "name": "scheduling replaces the deadline",
+          "args": [
+            "tasks",
+            "schedule",
+            "00000000-0000-4000-8000-000000000001",
+            "--start",
+            "2026-10-08T10:00",
+            "--end",
+            "2026-10-08T11:00"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000001",
+              "title": "Write the launch post",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": 45,
+              "sessions": [
+                {
+                  "start": "2026-10-08T10:00:00+02:00",
+                  "end": "2026-10-08T11:00:00+02:00",
+                  "allDay": false
+                }
+              ],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:40:00+02:00"
+            },
+            "sync": {
+              "state": "syncing",
+              "reason": null,
+              "pendingChanges": 13
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "updateTodo",
+              "id": "00000000-0000-4000-8000-000000000001",
+              "body": {
+                "startsAt": "2026-10-08T08:00:00.000Z",
+                "endsAt": "2026-10-08T09:00:00.000Z"
+              }
+            }
+          ],
+          "notified": 1
+        },
+        {
+          "name": "completing",
+          "args": [
+            "tasks",
+            "complete",
+            "00000000-0000-4000-8000-000000000001"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000001",
+              "title": "Write the launch post",
+              "notes": null,
+              "completed": true,
+              "project": null,
+              "estimateMinutes": 45,
+              "sessions": [
+                {
+                  "start": "2026-10-08T10:00:00+02:00",
+                  "end": "2026-10-08T11:00:00+02:00",
+                  "allDay": false
+                }
+              ],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:40:00+02:00"
+            },
+            "sync": {
+              "state": "syncing",
+              "reason": null,
+              "pendingChanges": 14
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "updateTodo",
+              "id": "00000000-0000-4000-8000-000000000001",
+              "body": {
+                "completed": true
+              }
+            }
+          ],
+          "notified": 1
+        },
+        {
+          "name": "completing a completed task changes nothing",
+          "args": [
+            "tasks",
+            "complete",
+            "00000000-0000-4000-8000-000000000001"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000001",
+              "title": "Write the launch post",
+              "notes": null,
+              "completed": true,
+              "project": null,
+              "estimateMinutes": 45,
+              "sessions": [
+                {
+                  "start": "2026-10-08T10:00:00+02:00",
+                  "end": "2026-10-08T11:00:00+02:00",
+                  "allDay": false
+                }
+              ],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:40:00+02:00"
+            },
+            "sync": {
+              "state": "syncing",
+              "reason": null,
+              "pendingChanges": 14
+            }
+          },
+          "stderr": null
+        },
+        {
+          "name": "the list is of open tasks",
+          "args": [
+            "tasks",
+            "list"
+          ],
+          "exit": 0,
+          "stdout": {
+            "tasks": []
+          },
+          "stderr": null
+        },
+        {
+          "name": "completed tasks on request",
+          "args": [
+            "tasks",
+            "list",
+            "--status",
+            "completed"
+          ],
+          "exit": 0,
+          "stdout": {
+            "tasks": [
+              {
+                "id": "00000000-0000-4000-8000-000000000001",
+                "title": "Write the launch post",
+                "notes": null,
+                "completed": true,
+                "project": null,
+                "estimateMinutes": 45,
+                "sessions": [
+                  {
+                    "start": "2026-10-08T10:00:00+02:00",
+                    "end": "2026-10-08T11:00:00+02:00",
+                    "allDay": false
+                  }
+                ],
+                "deadline": null,
+                "createdAt": "2026-10-01T09:40:00+02:00"
+              }
+            ]
+          },
+          "stderr": null
+        },
+        {
+          "name": "reopening",
+          "args": [
+            "tasks",
+            "reopen",
+            "00000000-0000-4000-8000-000000000001"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000001",
+              "title": "Write the launch post",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": 45,
+              "sessions": [
+                {
+                  "start": "2026-10-08T10:00:00+02:00",
+                  "end": "2026-10-08T11:00:00+02:00",
+                  "allDay": false
+                }
+              ],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:40:00+02:00"
+            },
+            "sync": {
+              "state": "syncing",
+              "reason": null,
+              "pendingChanges": 15
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "updateTodo",
+              "id": "00000000-0000-4000-8000-000000000001",
+              "body": {
+                "completed": false
+              }
+            }
+          ],
+          "notified": 1
+        },
+        {
+          "name": "the project's open tasks",
+          "args": [
+            "projects",
+            "list"
+          ],
+          "exit": 0,
+          "stdout": {
+            "projects": [
+              {
+                "id": "00000000-0000-4000-8000-0000000000a1",
+                "name": "Launch",
+                "color": "#4f8ef7",
+                "openTasks": 0
+              }
+            ]
+          },
+          "stderr": null
+        },
+        {
+          "name": "deleting",
+          "args": [
+            "tasks",
+            "delete",
+            "00000000-0000-4000-8000-000000000001"
+          ],
+          "exit": 0,
+          "stdout": {
+            "deleted": {
+              "id": "00000000-0000-4000-8000-000000000001",
+              "title": "Write the launch post"
+            },
+            "sync": {
+              "state": "syncing",
+              "reason": null,
+              "pendingChanges": 16
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "deleteTodo",
+              "id": "00000000-0000-4000-8000-000000000001",
+              "body": null
+            }
+          ],
+          "notified": 1
+        },
+        {
+          "name": "a deleted task is gone",
+          "args": [
+            "tasks",
+            "show",
+            "00000000-0000-4000-8000-000000000001"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "notFound",
+              "message": "No task with id \"00000000-0000-4000-8000-000000000001\"."
+            }
+          }
+        },
+        {
+          "name": "and can't be deleted twice",
+          "args": [
+            "tasks",
+            "delete",
+            "00000000-0000-4000-8000-000000000001"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "notFound",
+              "message": "No task with id \"00000000-0000-4000-8000-000000000001\"."
+            }
+          }
+        },
+        {
+          "name": "every change is waiting for the app's sync",
+          "args": [
+            "status"
+          ],
+          "exit": 0,
+          "stdout": {
+            "contract": 1,
+            "app": {
+              "platform": "$PLATFORM",
+              "version": "0.1.0",
+              "running": true
+            },
+            "account": {
+              "email": "ada@example.com",
+              "plan": "premium"
+            },
+            "sync": {
+              "state": "syncing",
+              "reason": null,
+              "pendingChanges": 16
+            },
+            "timeZone": "Europe/Warsaw",
+            "now": "2026-10-01T09:40:00+02:00"
+          },
+          "stderr": null
+        }
+      ]
+    },
+    {
+      "name": "where a change goes",
+      "steps": [
+        {
+          "name": "on Free, signed in, changes stay here",
+          "given": {
+            "now": "2026-10-01T07:40:00Z",
+            "account": {
+              "userId": "user_a",
+              "email": "ada@example.com",
+              "plan": "free"
+            },
+            "appRunning": true
+          },
+          "args": [
+            "status"
+          ],
+          "exit": 0,
+          "stdout": {
+            "contract": 1,
+            "app": {
+              "platform": "$PLATFORM",
+              "version": "0.1.0",
+              "running": true
+            },
+            "account": {
+              "email": "ada@example.com",
+              "plan": "free"
+            },
+            "sync": {
+              "state": "local",
+              "reason": "free",
+              "pendingChanges": 0
+            },
+            "timeZone": "Europe/Warsaw",
+            "now": "2026-10-01T09:40:00+02:00"
+          },
+          "stderr": null
+        },
+        {
+          "name": "but a running app is still told, so it shows the change",
+          "given": {
+            "ids": [
+              "00000000-0000-4000-8000-000000000001"
+            ]
+          },
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "Buy milk"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000001",
+              "title": "Buy milk",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": null,
+              "sessions": [],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:40:00+02:00"
+            },
+            "sync": {
+              "state": "local",
+              "reason": "free",
+              "pendingChanges": 1
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createTodo",
+              "id": "00000000-0000-4000-8000-000000000001",
+              "body": {
+                "id": "00000000-0000-4000-8000-000000000001",
+                "title": "Buy milk",
+                "createdAt": "2026-10-01T07:40:00.000Z"
+              }
+            }
+          ],
+          "notified": 1
+        },
+        {
+          "name": "sync does nothing for an account that doesn't sync",
+          "args": [
+            "sync"
+          ],
+          "exit": 0,
+          "stdout": {
+            "sync": {
+              "state": "local",
+              "reason": "free",
+              "pendingChanges": 1
+            },
+            "opened": false
+          },
+          "stderr": null
+        },
+        {
+          "name": "and never opens the app for one",
+          "given": {
+            "appRunning": false
+          },
+          "args": [
+            "sync",
+            "--open"
+          ],
+          "exit": 0,
+          "stdout": {
+            "sync": {
+              "state": "local",
+              "reason": "free",
+              "pendingChanges": 1
+            },
+            "opened": false
+          },
+          "stderr": null
+        },
+        {
+          "name": "on Premium with Unfold closed, changes wait for it",
+          "given": {
+            "account": {
+              "userId": "user_a",
+              "email": "ada@example.com",
+              "plan": "premium"
+            }
+          },
+          "args": [
+            "status"
+          ],
+          "exit": 0,
+          "stdout": {
+            "contract": 1,
+            "app": {
+              "platform": "$PLATFORM",
+              "version": "0.1.0",
+              "running": false
+            },
+            "account": {
+              "email": "ada@example.com",
+              "plan": "premium"
+            },
+            "sync": {
+              "state": "pending",
+              "reason": "appNotRunning",
+              "pendingChanges": 1
+            },
+            "timeZone": "Europe/Warsaw",
+            "now": "2026-10-01T09:40:00+02:00"
+          },
+          "stderr": null
+        },
+        {
+          "name": "a change waits, and nobody is told",
+          "given": {
+            "ids": [
+              "00000000-0000-4000-8000-000000000002"
+            ]
+          },
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "Call Ada"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000002",
+              "title": "Call Ada",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": null,
+              "sessions": [],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:40:00+02:00"
+            },
+            "sync": {
+              "state": "pending",
+              "reason": "appNotRunning",
+              "pendingChanges": 2
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createTodo",
+              "id": "00000000-0000-4000-8000-000000000002",
+              "body": {
+                "id": "00000000-0000-4000-8000-000000000002",
+                "title": "Call Ada",
+                "createdAt": "2026-10-01T07:40:00.000Z"
+              }
+            }
+          ]
+        },
+        {
+          "name": "sync alone doesn't open the app",
+          "args": [
+            "sync"
+          ],
+          "exit": 0,
+          "stdout": {
+            "sync": {
+              "state": "pending",
+              "reason": "appNotRunning",
+              "pendingChanges": 2
+            },
+            "opened": false
+          },
+          "stderr": null
+        },
+        {
+          "name": "sync --open says when the app can't be started",
+          "given": {
+            "canOpen": false
+          },
+          "args": [
+            "sync",
+            "--open"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "appUnavailable",
+              "message": "Couldn't open Unfold. Open it yourself, then run sync again."
+            }
+          }
+        },
+        {
+          "name": "sync --open starts the app, which then syncs",
+          "given": {
+            "canOpen": true
+          },
+          "args": [
+            "sync",
+            "--open"
+          ],
+          "exit": 0,
+          "stdout": {
+            "sync": {
+              "state": "syncing",
+              "reason": null,
+              "pendingChanges": 2
+            },
+            "opened": true
+          },
+          "stderr": null,
+          "opened": 1
+        },
+        {
+          "name": "sync tells a running app",
+          "given": {
+            "appRunning": true
+          },
+          "args": [
+            "sync"
+          ],
+          "exit": 0,
+          "stdout": {
+            "sync": {
+              "state": "syncing",
+              "reason": null,
+              "pendingChanges": 2
+            },
+            "opened": false
+          },
+          "stderr": null,
+          "notified": 1
+        },
+        {
+          "name": "sync --open doesn't open a running app",
+          "args": [
+            "sync",
+            "--open"
+          ],
+          "exit": 0,
+          "stdout": {
+            "sync": {
+              "state": "syncing",
+              "reason": null,
+              "pendingChanges": 2
+            },
+            "opened": false
+          },
+          "stderr": null,
+          "notified": 1
+        },
+        {
+          "name": "data linked to the account syncs",
+          "given": {
+            "linked": {
+              "userId": "user_a",
+              "email": "ada@example.com"
+            }
+          },
+          "args": [
+            "status"
+          ],
+          "exit": 0,
+          "stdout": {
+            "contract": 1,
+            "app": {
+              "platform": "$PLATFORM",
+              "version": "0.1.0",
+              "running": true
+            },
+            "account": {
+              "email": "ada@example.com",
+              "plan": "premium"
+            },
+            "sync": {
+              "state": "syncing",
+              "reason": null,
+              "pendingChanges": 2
+            },
+            "timeZone": "Europe/Warsaw",
+            "now": "2026-10-01T09:40:00+02:00"
+          },
+          "stderr": null
+        },
+        {
+          "name": "data linked to another account doesn't",
+          "given": {
+            "linked": {
+              "userId": "user_b",
+              "email": "bob@example.com"
+            }
+          },
+          "args": [
+            "status"
+          ],
+          "exit": 0,
+          "stdout": {
+            "contract": 1,
+            "app": {
+              "platform": "$PLATFORM",
+              "version": "0.1.0",
+              "running": true
+            },
+            "account": {
+              "email": "ada@example.com",
+              "plan": "premium"
+            },
+            "sync": {
+              "state": "local",
+              "reason": "otherAccount",
+              "pendingChanges": 2
+            },
+            "timeZone": "Europe/Warsaw",
+            "now": "2026-10-01T09:40:00+02:00"
+          },
+          "stderr": null
+        },
+        {
+          "name": "a change then stays here",
+          "given": {
+            "ids": [
+              "00000000-0000-4000-8000-000000000003"
+            ]
+          },
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "Stays here"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000003",
+              "title": "Stays here",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": null,
+              "sessions": [],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:40:00+02:00"
+            },
+            "sync": {
+              "state": "local",
+              "reason": "otherAccount",
+              "pendingChanges": 3
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createTodo",
+              "id": "00000000-0000-4000-8000-000000000003",
+              "body": {
+                "id": "00000000-0000-4000-8000-000000000003",
+                "title": "Stays here",
+                "createdAt": "2026-10-01T07:40:00.000Z"
+              }
+            }
+          ],
+          "notified": 1
+        },
+        {
+          "name": "signed out again",
+          "given": {
+            "account": null,
+            "appRunning": false
+          },
+          "args": [
+            "status"
+          ],
+          "exit": 0,
+          "stdout": {
+            "contract": 1,
+            "app": {
+              "platform": "$PLATFORM",
+              "version": "0.1.0",
+              "running": false
+            },
+            "account": null,
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 3
+            },
+            "timeZone": "Europe/Warsaw",
+            "now": "2026-10-01T09:40:00+02:00"
+          },
+          "stderr": null
+        }
+      ]
+    },
+    {
+      "name": "times",
+      "steps": [
+        {
+          "name": "a local time the clocks skip is that much later",
+          "given": {
+            "now": "2026-10-01T07:40:00Z",
+            "account": null,
+            "appRunning": false,
+            "ids": [
+              "00000000-0000-4000-8000-000000000001",
+              "00000000-0000-4000-8000-000000000002",
+              "00000000-0000-4000-8000-000000000003",
+              "00000000-0000-4000-8000-000000000004",
+              "00000000-0000-4000-8000-000000000005",
+              "00000000-0000-4000-8000-000000000006",
+              "00000000-0000-4000-8000-000000000007"
+            ]
+          },
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "Gap",
+            "--start",
+            "2027-03-28T02:30"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000001",
+              "title": "Gap",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": null,
+              "sessions": [
+                {
+                  "start": "2027-03-28T03:30:00+02:00",
+                  "end": "2027-03-28T04:00:00+02:00",
+                  "allDay": false
+                }
+              ],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:40:00+02:00"
+            },
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 1
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createTodo",
+              "id": "00000000-0000-4000-8000-000000000001",
+              "body": {
+                "id": "00000000-0000-4000-8000-000000000001",
+                "title": "Gap",
+                "startsAt": "2027-03-28T01:30:00.000Z",
+                "endsAt": "2027-03-28T02:00:00.000Z",
+                "createdAt": "2026-10-01T07:40:00.000Z"
+              }
+            }
+          ]
+        },
+        {
+          "name": "a local time that happens twice is the first; the end is in the new offset",
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "Twice",
+            "--start",
+            "2026-10-25T02:30"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000002",
+              "title": "Twice",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": null,
+              "sessions": [
+                {
+                  "start": "2026-10-25T02:30:00+02:00",
+                  "end": "2026-10-25T02:00:00+01:00",
+                  "allDay": false
+                }
+              ],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:40:00+02:00"
+            },
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 2
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createTodo",
+              "id": "00000000-0000-4000-8000-000000000002",
+              "body": {
+                "id": "00000000-0000-4000-8000-000000000002",
+                "title": "Twice",
+                "startsAt": "2026-10-25T00:30:00.000Z",
+                "endsAt": "2026-10-25T01:00:00.000Z",
+                "createdAt": "2026-10-01T07:40:00.000Z"
+              }
+            }
+          ]
+        },
+        {
+          "name": "milliseconds are kept, and further digits dropped",
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "Millis",
+            "--start",
+            "2026-10-02T09:00:00.250Z",
+            "--end",
+            "2026-10-02T09:30:00.123456Z"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000003",
+              "title": "Millis",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": null,
+              "sessions": [
+                {
+                  "start": "2026-10-02T11:00:00.250+02:00",
+                  "end": "2026-10-02T11:30:00.123+02:00",
+                  "allDay": false
+                }
+              ],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:40:00+02:00"
+            },
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 3
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createTodo",
+              "id": "00000000-0000-4000-8000-000000000003",
+              "body": {
+                "id": "00000000-0000-4000-8000-000000000003",
+                "title": "Millis",
+                "startsAt": "2026-10-02T09:00:00.250Z",
+                "endsAt": "2026-10-02T09:30:00.123Z",
+                "createdAt": "2026-10-01T07:40:00.000Z"
+              }
+            }
+          ]
+        },
+        {
+          "name": "an offset west of UTC",
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "West",
+            "--start",
+            "2026-10-02T09:00:00-05:00"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "title": "West",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": null,
+              "sessions": [
+                {
+                  "start": "2026-10-02T16:00:00+02:00",
+                  "end": "2026-10-02T16:30:00+02:00",
+                  "allDay": false
+                }
+              ],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:40:00+02:00"
+            },
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 4
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createTodo",
+              "id": "00000000-0000-4000-8000-000000000004",
+              "body": {
+                "id": "00000000-0000-4000-8000-000000000004",
+                "title": "West",
+                "startsAt": "2026-10-02T14:00:00.000Z",
+                "endsAt": "2026-10-02T14:30:00.000Z",
+                "createdAt": "2026-10-01T07:40:00.000Z"
+              }
+            }
+          ]
+        },
+        {
+          "name": "a session from midnight with a time for its end is timed",
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "Midnight",
+            "--start",
+            "2026-10-03T00:00",
+            "--end",
+            "2026-10-03T01:00"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000005",
+              "title": "Midnight",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": null,
+              "sessions": [
+                {
+                  "start": "2026-10-03T00:00:00+02:00",
+                  "end": "2026-10-03T01:00:00+02:00",
+                  "allDay": false
+                }
+              ],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:40:00+02:00"
+            },
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 5
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createTodo",
+              "id": "00000000-0000-4000-8000-000000000005",
+              "body": {
+                "id": "00000000-0000-4000-8000-000000000005",
+                "title": "Midnight",
+                "startsAt": "2026-10-02T22:00:00.000Z",
+                "endsAt": "2026-10-02T23:00:00.000Z",
+                "createdAt": "2026-10-01T07:40:00.000Z"
+              }
+            }
+          ]
+        },
+        {
+          "name": "from midnight to midnight is date-only, the last day included",
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "Two days",
+            "--start",
+            "2026-10-03T00:00",
+            "--end",
+            "2026-10-05T00:00"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000006",
+              "title": "Two days",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": null,
+              "sessions": [
+                {
+                  "start": "2026-10-03",
+                  "end": "2026-10-04",
+                  "allDay": true
+                }
+              ],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:40:00+02:00"
+            },
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 6
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createTodo",
+              "id": "00000000-0000-4000-8000-000000000006",
+              "body": {
+                "id": "00000000-0000-4000-8000-000000000006",
+                "title": "Two days",
+                "startsAt": "2026-10-02T22:00:00.000Z",
+                "endsAt": "2026-10-04T22:00:00.000Z",
+                "createdAt": "2026-10-01T07:40:00.000Z"
+              }
+            }
+          ]
+        },
+        {
+          "name": "a range is [from, to): a session that ends at from or starts at to is out",
+          "args": [
+            "tasks",
+            "list",
+            "--from",
+            "2026-10-02T11:30:00.123+02:00",
+            "--to",
+            "2026-10-02T16:00:00+02:00"
+          ],
+          "exit": 0,
+          "stdout": {
+            "tasks": []
+          },
+          "stderr": null
+        },
+        {
+          "name": "and one a moment inside is in",
+          "args": [
+            "tasks",
+            "list",
+            "--from",
+            "2026-10-02T11:30:00+02:00",
+            "--to",
+            "2026-10-02T16:00:01+02:00"
+          ],
+          "exit": 0,
+          "stdout": {
+            "tasks": [
+              {
+                "id": "00000000-0000-4000-8000-000000000004",
+                "title": "West",
+                "notes": null,
+                "completed": false,
+                "project": null,
+                "estimateMinutes": null,
+                "sessions": [
+                  {
+                    "start": "2026-10-02T16:00:00+02:00",
+                    "end": "2026-10-02T16:30:00+02:00",
+                    "allDay": false
+                  }
+                ],
+                "deadline": null,
+                "createdAt": "2026-10-01T09:40:00+02:00"
+              },
+              {
+                "id": "00000000-0000-4000-8000-000000000003",
+                "title": "Millis",
+                "notes": null,
+                "completed": false,
+                "project": null,
+                "estimateMinutes": null,
+                "sessions": [
+                  {
+                    "start": "2026-10-02T11:00:00.250+02:00",
+                    "end": "2026-10-02T11:30:00.123+02:00",
+                    "allDay": false
+                  }
+                ],
+                "deadline": null,
+                "createdAt": "2026-10-01T09:40:00+02:00"
+              }
+            ]
+          },
+          "stderr": null
+        },
+        {
+          "name": "a range inside the repeated hour",
+          "args": [
+            "tasks",
+            "list",
+            "--from",
+            "2026-10-25T02:45:00+02:00",
+            "--to",
+            "2026-10-25T02:50:00+02:00"
+          ],
+          "exit": 0,
+          "stdout": {
+            "tasks": [
+              {
+                "id": "00000000-0000-4000-8000-000000000002",
+                "title": "Twice",
+                "notes": null,
+                "completed": false,
+                "project": null,
+                "estimateMinutes": null,
+                "sessions": [
+                  {
+                    "start": "2026-10-25T02:30:00+02:00",
+                    "end": "2026-10-25T02:00:00+01:00",
+                    "allDay": false
+                  }
+                ],
+                "deadline": null,
+                "createdAt": "2026-10-01T09:40:00+02:00"
+              }
+            ]
+          },
+          "stderr": null
+        },
+        {
+          "name": "only a from",
+          "args": [
+            "tasks",
+            "list",
+            "--from",
+            "2026-10-26"
+          ],
+          "exit": 0,
+          "stdout": {
+            "tasks": [
+              {
+                "id": "00000000-0000-4000-8000-000000000001",
+                "title": "Gap",
+                "notes": null,
+                "completed": false,
+                "project": null,
+                "estimateMinutes": null,
+                "sessions": [
+                  {
+                    "start": "2027-03-28T03:30:00+02:00",
+                    "end": "2027-03-28T04:00:00+02:00",
+                    "allDay": false
+                  }
+                ],
+                "deadline": null,
+                "createdAt": "2026-10-01T09:40:00+02:00"
+              }
+            ]
+          },
+          "stderr": null
+        },
+        {
+          "name": "only a to",
+          "args": [
+            "tasks",
+            "list",
+            "--to",
+            "2026-10-02T12:00"
+          ],
+          "exit": 0,
+          "stdout": {
+            "tasks": [
+              {
+                "id": "00000000-0000-4000-8000-000000000003",
+                "title": "Millis",
+                "notes": null,
+                "completed": false,
+                "project": null,
+                "estimateMinutes": null,
+                "sessions": [
+                  {
+                    "start": "2026-10-02T11:00:00.250+02:00",
+                    "end": "2026-10-02T11:30:00.123+02:00",
+                    "allDay": false
+                  }
+                ],
+                "deadline": null,
+                "createdAt": "2026-10-01T09:40:00+02:00"
+              }
+            ]
+          },
+          "stderr": null
+        },
+        {
+          "name": "titles are trimmed as the app trims them, and blank notes are none",
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "﻿  Trim me  ",
+            "--notes",
+            " \n "
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000007",
+              "title": "Trim me",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": null,
+              "sessions": [],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:40:00+02:00"
+            },
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 7
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createTodo",
+              "id": "00000000-0000-4000-8000-000000000007",
+              "body": {
+                "id": "00000000-0000-4000-8000-000000000007",
+                "title": "Trim me",
+                "createdAt": "2026-10-01T07:40:00.000Z"
+              }
+            }
+          ]
+        },
+        {
+          "name": "a day the calendar doesn't have",
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "Bad",
+            "--start",
+            "2026-02-30T10:00"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "invalid",
+              "message": "Can't read \"2026-02-30T10:00\" as a time. Use 2026-10-01T10:00, or add Z or an offset like +02:00."
+            }
+          }
+        },
+        {
+          "name": "--start takes a time, not a day",
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "Bad",
+            "--start",
+            "2026-10-02"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "invalid",
+              "message": "Can't read \"2026-10-02\" as a time. Use 2026-10-01T10:00, or add Z or an offset like +02:00."
+            }
+          }
+        },
+        {
+          "name": "an hour past 23",
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "Bad",
+            "--start",
+            "2026-10-02T24:00"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "invalid",
+              "message": "Can't read \"2026-10-02T24:00\" as a time. Use 2026-10-01T10:00, or add Z or an offset like +02:00."
+            }
+          }
+        },
+        {
+          "name": "an offset without its colon",
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "Bad",
+            "--start",
+            "2026-10-02T10:00+0200"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "invalid",
+              "message": "Can't read \"2026-10-02T10:00+0200\" as a time. Use 2026-10-01T10:00, or add Z or an offset like +02:00."
+            }
+          }
+        },
+        {
+          "name": "a space for the T",
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "Bad",
+            "--start",
+            "2026-10-02 10:00"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "invalid",
+              "message": "Can't read \"2026-10-02 10:00\" as a time. Use 2026-10-01T10:00, or add Z or an offset like +02:00."
+            }
+          }
+        },
+        {
+          "name": "--day takes a day, not a time",
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "Bad",
+            "--day",
+            "2026-10-02T10:00"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "invalid",
+              "message": "Can't read \"2026-10-02T10:00\" as a day. Use 2026-10-01."
+            }
+          }
+        },
+        {
+          "name": "an end at the start",
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "Bad",
+            "--start",
+            "2026-10-02T10:00",
+            "--end",
+            "2026-10-02T10:00"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "invalid",
+              "message": "The end must be after the start."
+            }
+          }
+        },
+        {
+          "name": "an end before the start, across offsets",
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "Bad",
+            "--start",
+            "2026-10-02T10:00",
+            "--end",
+            "2026-10-02T07:30:00Z"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "invalid",
+              "message": "The end must be after the start."
+            }
+          }
+        },
+        {
+          "name": "a range that can't be read",
+          "args": [
+            "tasks",
+            "list",
+            "--from",
+            "yesterday"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "invalid",
+              "message": "Can't read \"yesterday\" as a time or a day. Use 2026-10-01T10:00 or 2026-10-01."
+            }
+          }
+        },
+        {
+          "name": "a deadline that can't be read",
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "Bad",
+            "--deadline",
+            "soon"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "invalid",
+              "message": "Can't read \"soon\" as a time or a day. Use 2026-10-01T10:00 or 2026-10-01."
+            }
+          }
+        },
+        {
+          "name": "only what worked was saved",
+          "args": [
+            "status"
+          ],
+          "exit": 0,
+          "stdout": {
+            "contract": 1,
+            "app": {
+              "platform": "$PLATFORM",
+              "version": "0.1.0",
+              "running": false
+            },
+            "account": null,
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 7
+            },
+            "timeZone": "Europe/Warsaw",
+            "now": "2026-10-01T09:40:00+02:00"
+          },
+          "stderr": null
+        }
+      ]
+    },
+    {
+      "name": "refusals",
+      "steps": [
+        {
+          "name": "no command",
+          "given": {
+            "now": "2026-10-01T07:40:00Z",
+            "account": null,
+            "appRunning": false
+          },
+          "args": [],
+          "exit": 2,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "usage",
+              "message": "No command given. Run \"unfold --cli help\" for the commands."
+            }
+          }
+        },
+        {
+          "name": "an option for a command",
+          "args": [
+            "--status"
+          ],
+          "exit": 2,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "usage",
+              "message": "No command given. Run \"unfold --cli help\" for the commands."
+            }
+          }
+        },
+        {
+          "name": "an unknown command",
+          "args": [
+            "frob"
+          ],
+          "exit": 2,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "usage",
+              "message": "Unknown command \"frob\". Run \"unfold --cli help\" for the commands."
+            }
+          }
+        },
+        {
+          "name": "half a command",
+          "args": [
+            "tasks"
+          ],
+          "exit": 2,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "usage",
+              "message": "Unknown command \"tasks\". Run \"unfold --cli help\" for the commands."
+            }
+          }
+        },
+        {
+          "name": "an unknown subcommand",
+          "args": [
+            "tasks",
+            "frob",
+            "x"
+          ],
+          "exit": 2,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "usage",
+              "message": "Unknown command \"tasks frob\". Run \"unfold --cli help\" for the commands."
+            }
+          }
+        },
+        {
+          "name": "an unknown option",
+          "args": [
+            "tasks",
+            "list",
+            "--bogus"
+          ],
+          "exit": 2,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "usage",
+              "message": "Unknown option --bogus for \"tasks list\"."
+            }
+          }
+        },
+        {
+          "name": "an option of another command",
+          "args": [
+            "tasks",
+            "show",
+            "x",
+            "--title",
+            "y"
+          ],
+          "exit": 2,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "usage",
+              "message": "Unknown option --title for \"tasks show\"."
+            }
+          }
+        },
+        {
+          "name": "a missing title",
+          "args": [
+            "tasks",
+            "add"
+          ],
+          "exit": 2,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "usage",
+              "message": "\"tasks add\" needs --title."
+            }
+          }
+        },
+        {
+          "name": "an option without its value",
+          "args": [
+            "tasks",
+            "add",
+            "--title"
+          ],
+          "exit": 2,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "usage",
+              "message": "--title needs a value."
+            }
+          }
+        },
+        {
+          "name": "an option twice",
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "a",
+            "--title=b"
+          ],
+          "exit": 2,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "usage",
+              "message": "--title is given twice."
+            }
+          }
+        },
+        {
+          "name": "a flag twice",
+          "args": [
+            "tasks",
+            "list",
+            "--unscheduled",
+            "--unscheduled"
+          ],
+          "exit": 2,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "usage",
+              "message": "--unscheduled is given twice."
+            }
+          }
+        },
+        {
+          "name": "a flag with a value",
+          "args": [
+            "sync",
+            "--open=1"
+          ],
+          "exit": 2,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "usage",
+              "message": "--open takes no value."
+            }
+          }
+        },
+        {
+          "name": "a day and a time",
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "x",
+            "--day",
+            "2026-10-02",
+            "--start",
+            "2026-10-02T10:00"
+          ],
+          "exit": 2,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "usage",
+              "message": "--day can't be combined with --start or --end."
+            }
+          }
+        },
+        {
+          "name": "an end without a start",
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "x",
+            "--end",
+            "2026-10-02T10:00"
+          ],
+          "exit": 2,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "usage",
+              "message": "--end needs --start."
+            }
+          }
+        },
+        {
+          "name": "a deadline and a session",
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "x",
+            "--deadline",
+            "2026-10-02",
+            "--day",
+            "2026-10-02"
+          ],
+          "exit": 2,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "usage",
+              "message": "--deadline can't be combined with --start, --end or --day."
+            }
+          }
+        },
+        {
+          "name": "a missing id",
+          "args": [
+            "tasks",
+            "show"
+          ],
+          "exit": 2,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "usage",
+              "message": "\"tasks show\" needs a task id."
+            }
+          }
+        },
+        {
+          "name": "an id too many",
+          "args": [
+            "tasks",
+            "show",
+            "a",
+            "b"
+          ],
+          "exit": 2,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "usage",
+              "message": "Unexpected argument \"b\"."
+            }
+          }
+        },
+        {
+          "name": "an argument for a command without one",
+          "args": [
+            "status",
+            "now"
+          ],
+          "exit": 2,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "usage",
+              "message": "Unexpected argument \"now\"."
+            }
+          }
+        },
+        {
+          "name": "an update without a change",
+          "args": [
+            "tasks",
+            "update",
+            "x"
+          ],
+          "exit": 2,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "usage",
+              "message": "\"tasks update\" needs at least one of --title, --notes, --project, --estimate, --deadline."
+            }
+          }
+        },
+        {
+          "name": "a schedule without a time",
+          "args": [
+            "tasks",
+            "schedule",
+            "x"
+          ],
+          "exit": 2,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "usage",
+              "message": "\"tasks schedule\" needs --start or --day."
+            }
+          }
+        },
+        {
+          "name": "a project without a name",
+          "args": [
+            "projects",
+            "add"
+          ],
+          "exit": 2,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "usage",
+              "message": "\"projects add\" needs --name."
+            }
+          }
+        },
+        {
+          "name": "a blank title",
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "   "
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "invalid",
+              "message": "A task needs a title."
+            }
+          }
+        },
+        {
+          "name": "a blank project name",
+          "args": [
+            "projects",
+            "add",
+            "--name",
+            " "
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "invalid",
+              "message": "A project needs a name."
+            }
+          }
+        },
+        {
+          "name": "an estimate of zero",
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "x",
+            "--estimate",
+            "0"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "invalid",
+              "message": "The estimate is a whole number of minutes from 1 to 10080."
+            }
+          }
+        },
+        {
+          "name": "an estimate over a week",
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "x",
+            "--estimate",
+            "10081"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "invalid",
+              "message": "The estimate is a whole number of minutes from 1 to 10080."
+            }
+          }
+        },
+        {
+          "name": "an estimate in words",
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "x",
+            "--estimate",
+            "1h"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "invalid",
+              "message": "The estimate is a whole number of minutes from 1 to 10080."
+            }
+          }
+        },
+        {
+          "name": "an unknown status",
+          "args": [
+            "tasks",
+            "list",
+            "--status",
+            "done"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "invalid",
+              "message": "--status is open, completed or all."
+            }
+          }
+        },
+        {
+          "name": "an unknown color",
+          "args": [
+            "projects",
+            "add",
+            "--name",
+            "x",
+            "--color",
+            "mauve"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "invalid",
+              "message": "Can't read \"mauve\" as a color. Use blue, green, orange, purple, pink, teal, yellow, gray or #rrggbb."
+            }
+          }
+        },
+        {
+          "name": "a color that isn't six hex digits",
+          "args": [
+            "projects",
+            "add",
+            "--name",
+            "x",
+            "--color",
+            "#12345g"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "invalid",
+              "message": "Can't read \"#12345g\" as a color. Use blue, green, orange, purple, pink, teal, yellow, gray or #rrggbb."
+            }
+          }
+        },
+        {
+          "name": "a project that isn't there",
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "x",
+            "--project",
+            "nope"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "notFound",
+              "message": "No project with id \"nope\"."
+            }
+          }
+        },
+        {
+          "name": "a list for a project that isn't there",
+          "args": [
+            "tasks",
+            "list",
+            "--project",
+            "nope"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "notFound",
+              "message": "No project with id \"nope\"."
+            }
+          }
+        },
+        {
+          "name": "showing a task that isn't there",
+          "args": [
+            "tasks",
+            "show",
+            "nope"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "notFound",
+              "message": "No task with id \"nope\"."
+            }
+          }
+        },
+        {
+          "name": "updating one",
+          "args": [
+            "tasks",
+            "update",
+            "nope",
+            "--title",
+            "x"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "notFound",
+              "message": "No task with id \"nope\"."
+            }
+          }
+        },
+        {
+          "name": "scheduling one",
+          "args": [
+            "tasks",
+            "schedule",
+            "nope",
+            "--day",
+            "2026-10-02"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "notFound",
+              "message": "No task with id \"nope\"."
+            }
+          }
+        },
+        {
+          "name": "unscheduling one",
+          "args": [
+            "tasks",
+            "unschedule",
+            "nope"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "notFound",
+              "message": "No task with id \"nope\"."
+            }
+          }
+        },
+        {
+          "name": "completing one",
+          "args": [
+            "tasks",
+            "complete",
+            "nope"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "notFound",
+              "message": "No task with id \"nope\"."
+            }
+          }
+        },
+        {
+          "name": "reopening one",
+          "args": [
+            "tasks",
+            "reopen",
+            "nope"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "notFound",
+              "message": "No task with id \"nope\"."
+            }
+          }
+        },
+        {
+          "name": "deleting one",
+          "args": [
+            "tasks",
+            "delete",
+            "nope"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "notFound",
+              "message": "No task with id \"nope\"."
+            }
+          }
+        },
+        {
+          "name": "help is text",
+          "args": [
+            "help"
+          ],
+          "exit": 0,
+          "stdout": "Unfold's command line for agents (contract 1).\n\nUsage: unfold --cli <command> [options]\n\n  status                  the account, where changes go, the time zone and the time\n  version                 the contract and the app's version\n\n  tasks list              --status open|completed|all  --from <time|day>  --to <time|day>\n                          --unscheduled  --project <id>|none  --search <text>\n  tasks show <id>\n  tasks add               --title <text>  --notes <text>  --project <id>\n                          --estimate <minutes>\n                          --start <time> [--end <time>] | --day <day> | --deadline <time|day>\n  tasks update <id>       --title <text>  --notes <text>  --project <id>|none\n                          --estimate <minutes>|none  --deadline <time|day>|none\n  tasks schedule <id>     --start <time> [--end <time>] | --day <day>\n  tasks unschedule <id>\n  tasks complete <id>\n  tasks reopen <id>\n  tasks delete <id>\n\n  projects list\n  projects add            --name <text>  --color <name|#rrggbb>\n\n  sync                    --open starts Unfold when the account syncs and it isn't running\n\nA time is 2026-10-01T10:00 in this computer's time zone, or with Z or an offset like +02:00.\nA day is 2026-10-01. The answer is one JSON object on stdout; a failure is\n{\"error\":{\"code\":\"…\",\"message\":\"…\"}} on stderr with a non-zero exit code.",
+          "stderr": null
+        },
+        {
+          "name": "nothing was saved",
+          "args": [
+            "status"
+          ],
+          "exit": 0,
+          "stdout": {
+            "contract": 1,
+            "app": {
+              "platform": "$PLATFORM",
+              "version": "0.1.0",
+              "running": false
+            },
+            "account": null,
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 0
+            },
+            "timeZone": "Europe/Warsaw",
+            "now": "2026-10-01T09:40:00+02:00"
+          },
+          "stderr": null
+        },
+        {
+          "name": "no task",
+          "args": [
+            "tasks",
+            "list",
+            "--status",
+            "all"
+          ],
+          "exit": 0,
+          "stdout": {
+            "tasks": []
+          },
+          "stderr": null
+        },
+        {
+          "name": "no project",
+          "args": [
+            "projects",
+            "list"
+          ],
+          "exit": 0,
+          "stdout": {
+            "projects": []
+          },
+          "stderr": null
+        }
+      ]
+    },
+    {
+      "name": "project colors",
+      "steps": [
+        {
+          "name": "project 1 is #4f8ef7",
+          "given": {
+            "ids": [
+              "00000000-0000-4000-8000-0000000000a1"
+            ],
+            "now": "2026-10-01T07:40:00Z",
+            "account": null,
+            "appRunning": false
+          },
+          "args": [
+            "projects",
+            "add",
+            "--name",
+            "Blue"
+          ],
+          "exit": 0,
+          "stdout": {
+            "project": {
+              "id": "00000000-0000-4000-8000-0000000000a1",
+              "name": "Blue",
+              "color": "#4f8ef7",
+              "openTasks": 0
+            },
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 1
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createProject",
+              "id": "00000000-0000-4000-8000-0000000000a1",
+              "body": {
+                "id": "00000000-0000-4000-8000-0000000000a1",
+                "name": "Blue",
+                "color": "#4f8ef7"
+              }
+            }
+          ]
+        },
+        {
+          "name": "project 2 is #3fb86a",
+          "given": {
+            "ids": [
+              "00000000-0000-4000-8000-0000000000a2"
+            ]
+          },
+          "args": [
+            "projects",
+            "add",
+            "--name",
+            "Green"
+          ],
+          "exit": 0,
+          "stdout": {
+            "project": {
+              "id": "00000000-0000-4000-8000-0000000000a2",
+              "name": "Green",
+              "color": "#3fb86a",
+              "openTasks": 0
+            },
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 2
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createProject",
+              "id": "00000000-0000-4000-8000-0000000000a2",
+              "body": {
+                "id": "00000000-0000-4000-8000-0000000000a2",
+                "name": "Green",
+                "color": "#3fb86a"
+              }
+            }
+          ]
+        },
+        {
+          "name": "project 3 is #e8893a",
+          "given": {
+            "ids": [
+              "00000000-0000-4000-8000-0000000000a3"
+            ]
+          },
+          "args": [
+            "projects",
+            "add",
+            "--name",
+            "Orange"
+          ],
+          "exit": 0,
+          "stdout": {
+            "project": {
+              "id": "00000000-0000-4000-8000-0000000000a3",
+              "name": "Orange",
+              "color": "#e8893a",
+              "openTasks": 0
+            },
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 3
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createProject",
+              "id": "00000000-0000-4000-8000-0000000000a3",
+              "body": {
+                "id": "00000000-0000-4000-8000-0000000000a3",
+                "name": "Orange",
+                "color": "#e8893a"
+              }
+            }
+          ]
+        },
+        {
+          "name": "project 4 is #9b7bf0",
+          "given": {
+            "ids": [
+              "00000000-0000-4000-8000-0000000000a4"
+            ]
+          },
+          "args": [
+            "projects",
+            "add",
+            "--name",
+            "Purple"
+          ],
+          "exit": 0,
+          "stdout": {
+            "project": {
+              "id": "00000000-0000-4000-8000-0000000000a4",
+              "name": "Purple",
+              "color": "#9b7bf0",
+              "openTasks": 0
+            },
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 4
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createProject",
+              "id": "00000000-0000-4000-8000-0000000000a4",
+              "body": {
+                "id": "00000000-0000-4000-8000-0000000000a4",
+                "name": "Purple",
+                "color": "#9b7bf0"
+              }
+            }
+          ]
+        },
+        {
+          "name": "project 5 is #e0609b",
+          "given": {
+            "ids": [
+              "00000000-0000-4000-8000-0000000000a5"
+            ]
+          },
+          "args": [
+            "projects",
+            "add",
+            "--name",
+            "Pink"
+          ],
+          "exit": 0,
+          "stdout": {
+            "project": {
+              "id": "00000000-0000-4000-8000-0000000000a5",
+              "name": "Pink",
+              "color": "#e0609b",
+              "openTasks": 0
+            },
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 5
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createProject",
+              "id": "00000000-0000-4000-8000-0000000000a5",
+              "body": {
+                "id": "00000000-0000-4000-8000-0000000000a5",
+                "name": "Pink",
+                "color": "#e0609b"
+              }
+            }
+          ]
+        },
+        {
+          "name": "project 6 is #2fb3b0",
+          "given": {
+            "ids": [
+              "00000000-0000-4000-8000-0000000000a6"
+            ]
+          },
+          "args": [
+            "projects",
+            "add",
+            "--name",
+            "Teal"
+          ],
+          "exit": 0,
+          "stdout": {
+            "project": {
+              "id": "00000000-0000-4000-8000-0000000000a6",
+              "name": "Teal",
+              "color": "#2fb3b0",
+              "openTasks": 0
+            },
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 6
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createProject",
+              "id": "00000000-0000-4000-8000-0000000000a6",
+              "body": {
+                "id": "00000000-0000-4000-8000-0000000000a6",
+                "name": "Teal",
+                "color": "#2fb3b0"
+              }
+            }
+          ]
+        },
+        {
+          "name": "project 7 is #d9b43a",
+          "given": {
+            "ids": [
+              "00000000-0000-4000-8000-0000000000a7"
+            ]
+          },
+          "args": [
+            "projects",
+            "add",
+            "--name",
+            "Yellow"
+          ],
+          "exit": 0,
+          "stdout": {
+            "project": {
+              "id": "00000000-0000-4000-8000-0000000000a7",
+              "name": "Yellow",
+              "color": "#d9b43a",
+              "openTasks": 0
+            },
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 7
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createProject",
+              "id": "00000000-0000-4000-8000-0000000000a7",
+              "body": {
+                "id": "00000000-0000-4000-8000-0000000000a7",
+                "name": "Yellow",
+                "color": "#d9b43a"
+              }
+            }
+          ]
+        },
+        {
+          "name": "project 8 is #8a8d96",
+          "given": {
+            "ids": [
+              "00000000-0000-4000-8000-0000000000a8"
+            ]
+          },
+          "args": [
+            "projects",
+            "add",
+            "--name",
+            "Gray"
+          ],
+          "exit": 0,
+          "stdout": {
+            "project": {
+              "id": "00000000-0000-4000-8000-0000000000a8",
+              "name": "Gray",
+              "color": "#8a8d96",
+              "openTasks": 0
+            },
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 8
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createProject",
+              "id": "00000000-0000-4000-8000-0000000000a8",
+              "body": {
+                "id": "00000000-0000-4000-8000-0000000000a8",
+                "name": "Gray",
+                "color": "#8a8d96"
+              }
+            }
+          ]
+        },
+        {
+          "name": "project 9 is #4f8ef7",
+          "given": {
+            "ids": [
+              "00000000-0000-4000-8000-0000000000a9"
+            ]
+          },
+          "args": [
+            "projects",
+            "add",
+            "--name",
+            "Ninth"
+          ],
+          "exit": 0,
+          "stdout": {
+            "project": {
+              "id": "00000000-0000-4000-8000-0000000000a9",
+              "name": "Ninth",
+              "color": "#4f8ef7",
+              "openTasks": 0
+            },
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 9
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createProject",
+              "id": "00000000-0000-4000-8000-0000000000a9",
+              "body": {
+                "id": "00000000-0000-4000-8000-0000000000a9",
+                "name": "Ninth",
+                "color": "#4f8ef7"
+              }
+            }
+          ]
+        },
+        {
+          "name": "a color given by name is that color, whatever is used",
+          "given": {
+            "ids": [
+              "00000000-0000-4000-8000-0000000000b1"
+            ]
+          },
+          "args": [
+            "projects",
+            "add",
+            "--name",
+            "Tenth",
+            "--color",
+            "gray"
+          ],
+          "exit": 0,
+          "stdout": {
+            "project": {
+              "id": "00000000-0000-4000-8000-0000000000b1",
+              "name": "Tenth",
+              "color": "#8a8d96",
+              "openTasks": 0
+            },
+            "sync": {
+              "state": "local",
+              "reason": "signedOut",
+              "pendingChanges": 10
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createProject",
+              "id": "00000000-0000-4000-8000-0000000000b1",
+              "body": {
+                "id": "00000000-0000-4000-8000-0000000000b1",
+                "name": "Tenth",
+                "color": "#8a8d96"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+node_modules/
+.DS_Store
+# Skill evals write their runs beside the skill (see README, "Evals").
+/unfold-workspace/

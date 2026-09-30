@@ -1,0 +1,29 @@
+Unfold's command line for agents (contract 1).
+
+Usage: unfold --cli <command> [options]
+
+  status                  the account, where changes go, the time zone and the time
+  version                 the contract and the app's version
+
+  tasks list              --status open|completed|all  --from <time|day>  --to <time|day>
+                          --unscheduled  --project <id>|none  --search <text>
+  tasks show <id>
+  tasks add               --title <text>  --notes <text>  --project <id>
+                          --estimate <minutes>
+                          --start <time> [--end <time>] | --day <day> | --deadline <time|day>
+  tasks update <id>       --title <text>  --notes <text>  --project <id>|none
+                          --estimate <minutes>|none  --deadline <time|day>|none
+  tasks schedule <id>     --start <time> [--end <time>] | --day <day>
+  tasks unschedule <id>
+  tasks complete <id>
+  tasks reopen <id>
+  tasks delete <id>
+
+  projects list
+  projects add            --name <text>  --color <name|#rrggbb>
+
+  sync                    --open starts Unfold when the account syncs and it isn't running
+
+A time is 2026-10-01T10:00 in this computer's time zone, or with Z or an offset like +02:00.
+A day is 2026-10-01. The answer is one JSON object on stdout; a failure is
+{"error":{"code":"…","message":"…"}} on stderr with a non-zero exit code.

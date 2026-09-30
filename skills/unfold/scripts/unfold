@@ -1,0 +1,108 @@
+#!/bin/sh
+# Runs Unfold's command line for agents: the installed app's own `--cli` mode.
+#
+# The app does the work, with its own database, rules and sync. This script only finds the app,
+# checks that its command line follows the contract this skill speaks, and hands it the arguments
+# unchanged.
+#
+#   sh unfold status
+#   sh unfold tasks add --title "Write launch post" --start 2026-10-01T10:00
+#
+# Set UNFOLD_APP (macOS: the path of Unfold.app) or UNFOLD_BIN (Linux: the `unfold` binary) when
+# the app isn't where this looks.
+set -u
+
+# The contract this skill speaks: SKILL.md's `metadata.contract`. A contract changes only in a way
+# the other side can't live with, so the app's must be this one.
+contract=1
+
+# Says why it can't run, as the command line reports its own failures, and stops.
+fail() {
+  printf '{"error":{"code":"%s","message":"%s"}}\n' "$1" "$2" >&2
+  exit 1
+}
+
+not_installed() {
+  fail notInstalled "Unfold isn't installed on this computer. Get it at https://unfoldplanner.com, then try again."
+}
+
+# Stops unless the app's contract, `$1` (empty for an app without a command line), is this skill's.
+check_contract() {
+  case "$1" in
+    '' | *[!0-9]*)
+      fail updateRequired "This version of Unfold has no command line for agents yet. Update Unfold, then try again."
+      ;;
+  esac
+  if [ "$1" -lt "$contract" ]; then
+    fail updateRequired "This version of Unfold is older than this skill. Update Unfold, then try again."
+  fi
+  if [ "$1" -gt "$contract" ]; then
+    fail skillUpdateRequired "Unfold is newer than this skill. Update the Unfold skill, then try again."
+  fi
+}
+
+# macOS: Unfold.app where apps are installed, else wherever Spotlight knows it.
+find_mac_app() {
+  if [ -n "${UNFOLD_APP:-}" ]; then
+    printf '%s\n' "$UNFOLD_APP"
+    return
+  fi
+  # UNFOLD_SKILL_ROOT moves the search under another folder, for this skill's tests.
+  for candidate in "${UNFOLD_SKILL_ROOT:-}/Applications/Unfold.app" "$HOME/Applications/Unfold.app"; do
+    if [ -d "$candidate" ]; then
+      printf '%s\n' "$candidate"
+      return
+    fi
+  done
+  if command -v mdfind >/dev/null 2>&1; then
+    mdfind "kMDItemCFBundleIdentifier == 'com.unfoldplanner.mac'" 2>/dev/null | head -n 1
+  fi
+}
+
+run_mac() {
+  app=$(find_mac_app)
+  if [ -z "$app" ] || [ ! -x "$app/Contents/MacOS/Unfold" ]; then
+    not_installed
+  fi
+  # An app from before the command line would open its window instead of answering, so it is
+  # never run: the app says in its Info.plist which contract its command line follows.
+  check_contract "$(plutil -extract UnfoldCLIContract raw -o - "$app/Contents/Info.plist" 2>/dev/null)"
+  exec "$app/Contents/MacOS/Unfold" --cli "$@"
+}
+
+# Linux: the contract of the app at `$1`, from `--cli version`; empty for an app from before the
+# command line, which refuses --cli as an unknown option without opening a window. Starting the
+# app twice for every command would double its cost, so the answer is kept, with the file's inode,
+# size and time, until the app is replaced.
+linux_contract() {
+  cache=${XDG_CACHE_HOME:-${HOME:-/nonexistent}/.cache}/unfold-skill/contract
+  key=$(ls -lnLi "$1" 2>/dev/null) || key=
+  if [ -n "$key" ] && [ -f "$cache" ] && [ "$(sed -n 1p "$cache")" = "$key" ]; then
+    sed -n 2p "$cache"
+    return
+  fi
+  answer=$("$1" --cli version 2>/dev/null) || return 0
+  found=$(printf '%s\n' "$answer" | sed -n 's/.*"contract":\([0-9][0-9]*\).*/\1/p')
+  # Only an answer is kept: an old app is replaced by the update it needs, which changes the key.
+  if [ -n "$key" ] && [ -n "$found" ]; then
+    {
+      mkdir -p "${cache%/*}" && printf '%s\n%s\n' "$key" "$found" >"$cache.$$" \
+        && mv -f "$cache.$$" "$cache"
+      rm -f "$cache.$$"
+    } 2>/dev/null
+  fi
+  printf '%s\n' "$found"
+}
+
+run_linux() {
+  bin=$(command -v "${UNFOLD_BIN:-unfold}") || not_installed
+  check_contract "$(linux_contract "$bin")"
+  exec "$bin" --cli "$@"
+}
+
+# UNFOLD_SKILL_OS stands in for the system's name, for this skill's tests.
+case "${UNFOLD_SKILL_OS:-$(uname -s)}" in
+  Darwin) run_mac "$@" ;;
+  Linux) run_linux "$@" ;;
+  *) fail unsupported "Unfold runs on macOS and on Omarchy (Linux), not on this system." ;;
+esac

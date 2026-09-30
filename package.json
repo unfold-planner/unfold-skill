@@ -1,0 +1,9 @@
+{
+  "name": "unfold-skill",
+  "private": true,
+  "description": "The agent skill for Unfold, and the contract of the command line it runs.",
+  "scripts": {
+    "check": "scripts/check.sh",
+    "test": "bun test"
+  }
+}
