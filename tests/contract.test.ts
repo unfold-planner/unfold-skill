@@ -62,7 +62,7 @@ describe("the transcript", () => {
   test("shows every error code the command line has, and every sync state", () => {
     const codes = new Set(steps.map((step) => step.stderr?.error?.code).filter(Boolean));
     const text = JSON.stringify(transcript);
-    expect([...codes].sort()).toEqual(["appUnavailable", "invalid", "notFound", "usage"]);
+    expect([...codes].sort()).toEqual(["appUnavailable", "invalid", "notFound", "readOnly", "usage"]);
     for (const state of ['"state": "local"', '"state": "syncing"', '"state": "pending"']) {
       expect(read("contract/transcript.json")).toContain(state);
     }
@@ -154,6 +154,7 @@ describe("the skill", () => {
       "notFound",
       "database",
       "appUnavailable",
+      "readOnly",
       "notInstalled",
       "updateRequired",
       "skillUpdateRequired",

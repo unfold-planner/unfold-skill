@@ -17,7 +17,13 @@ import { canonical, jsonLine, launch, repo, scratch, workspace } from "./support
 
 type Step = {
   name: string;
-  given?: { now?: string; account?: unknown; linked?: unknown; appRunning?: boolean };
+  given?: {
+    now?: string;
+    account?: unknown;
+    linked?: unknown;
+    appRunning?: boolean;
+    agentsCanChange?: boolean;
+  };
   args: string[];
   exit: number;
   stdout: unknown;
@@ -66,10 +72,17 @@ function rows<Row>(database: string, sql: string, ...values: string[]): Row[] {
   }
 }
 
-/** A scene an outside run can set up: nobody signed in, no app running, no linked account. */
+/**
+ * A scene an outside run can set up: nobody signed in, no app running, no linked account, and the
+ * app's setting letting agents make changes, as it does until the app says otherwise.
+ */
 function playsFromOutside(scene: Scene): boolean {
   return scene.steps.every(
-    (step) => !step.given?.account && !step.given?.linked && !step.given?.appRunning,
+    (step) =>
+      !step.given?.account &&
+      !step.given?.linked &&
+      !step.given?.appRunning &&
+      step.given?.agentsCanChange !== false,
   );
 }
 

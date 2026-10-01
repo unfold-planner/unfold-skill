@@ -10,7 +10,7 @@ description: >-
   Premium account the changes also sync to the user's other devices.
 compatibility: Requires the Unfold app on this computer (macOS 14 or later, or Omarchy on Arch Linux).
 metadata:
-  version: "0.1.1"
+  version: "0.2.0"
   author: "Unfold"
   # The command-line contract this skill speaks; the app says which one it follows.
   contract: "1"
@@ -179,3 +179,4 @@ demo' to Friday 9:00-10:00"), not the JSON.
 | `notFound` | No task or project with that id. | List again; it may have been deleted. |
 | `database` | The database couldn't be used. | Try once more; if it persists, tell the user and stop. |
 | `appUnavailable` | `sync --open` couldn't start Unfold. | Ask the user to open Unfold. |
+| `readOnly` | The user turned off changes by agents. Reading still works. | Don't retry or look for another way in. Tell the user what you would change, and that they can allow it with "Agents can make changes" in Unfold's Settings › AI Agents. |

@@ -145,6 +145,12 @@ def no_task(id):
     return f'No task with id "{id}".'
 
 
+READ_ONLY = (
+    'Unfold doesn\'t let agents make changes. The user can turn on "Agents can make changes" in '
+    "Unfold's Settings › AI Agents."
+)
+
+
 # --------------------------------------------------------------------------------------------
 # Signed out: everything stays on this computer, and every edit is still queued for a later
 # sign-in, as the app's own edits are.
@@ -1313,6 +1319,68 @@ def project_colors():
     return steps
 
 
+# --------------------------------------------------------------------------------------------
+# Changes turned off: the app's "Agents can make changes" setting is off, so every write is
+# refused before its values or its id are looked at, and everything else still works.
+
+
+def changes_turned_off():
+    t = T[1]
+    written = task(t, "Write launch post")
+
+    def refused(name, args, given=None):
+        return fails(name, args, "readOnly", READ_ONLY, given=given)
+
+    return [
+        refused(
+            "adding a task is refused",
+            ["tasks", "add", "--title", "Write launch post"],
+            given={
+                "now": "2026-10-01T07:40:00Z",
+                "account": ADA,
+                "appRunning": True,
+                "agentsCanChange": False,
+            },
+        ),
+        refused("adding a project", ["projects", "add", "--name", "Launch"]),
+        refused("before its values are checked", ["tasks", "add", "--title", "   "]),
+        refused("and before its id is looked up", ["tasks", "complete", "nope"]),
+        fails(
+            "a write that can't be read is still usage",
+            ["tasks", "add"],
+            "usage",
+            '"tasks add" needs --title.',
+        ),
+        ok("reading works", ["tasks", "list", "--status", "all"], {"tasks": []}),
+        ok("so does status", ["status"], status(ADA, syncing(0), True)),
+        ok(
+            "and sync, which changes nothing",
+            ["sync"],
+            {"sync": syncing(0), "opened": False},
+            notified=1,
+        ),
+        ok(
+            "turned on, a write works",
+            ["tasks", "add", "--title", "Write launch post"],
+            {"task": written, "sync": syncing(1)},
+            given={"agentsCanChange": True, "ids": [t]},
+            queued=[created_todo(t, "Write launch post")],
+            notified=1,
+        ),
+        refused(
+            "turned off again, updating it is refused",
+            ["tasks", "update", t, "--title", "Renamed"],
+            given={"agentsCanChange": False},
+        ),
+        refused("scheduling it", ["tasks", "schedule", t, "--day", "2026-10-02"]),
+        refused("unscheduling it", ["tasks", "unschedule", t]),
+        refused("completing it", ["tasks", "complete", t]),
+        refused("reopening it", ["tasks", "reopen", t]),
+        refused("deleting it", ["tasks", "delete", t]),
+        ok("the task is as it was", ["tasks", "show", t], {"task": written}),
+    ]
+
+
 TRANSCRIPT = {
     "contract": 1,
     "timeZone": "Europe/Warsaw",
@@ -1324,6 +1392,7 @@ TRANSCRIPT = {
         {"name": "times", "steps": times()},
         {"name": "refusals", "steps": refusals()},
         {"name": "project colors", "steps": project_colors()},
+        {"name": "changes turned off", "steps": changes_turned_off()},
     ],
 }
 

@@ -17,7 +17,8 @@ The skill's launcher, `skills/unfold/scripts/unfold`, finds the right one.
 - It never signs in, never reads a token and never calls the backend. Syncing stays the app's job: on
   a signed-in Premium account the app sends the outbox, as it does for its own edits.
 - After a write, it tells a running app to read the database again and sync.
-- It holds no state of its own.
+- It holds no state of its own. It reads one setting of the app's, whether agents may make changes
+  (see "When changes are turned off"), and records for the app when it was last used.
 
 ## Calling it
 
@@ -46,6 +47,7 @@ unfold --cli <command> [<subcommand>] [<id>] [--option <value>]...
 | `notFound` | 1 | No task or project with that id. |
 | `database` | 1 | The database can't be opened, read or written. |
 | `appUnavailable` | 1 | `sync --open` couldn't start the app. |
+| `readOnly` | 1 | A write, while the app's setting doesn't let agents make changes. |
 
 Every key is always present; a missing value is `null`.
 
@@ -249,6 +251,31 @@ opens without coming to the front. It never opens the app for an account that do
 
 Usage as plain text: `help.txt`, the same in both clients.
 
+## When changes are turned off
+
+The app has a setting, "Agents can make changes" (on by default; macOS and Linux: Settings › AI
+Agents). The app writes it; the command line only reads it, each time a command runs, and has no
+command or option that changes it.
+
+- While it's off, a write fails with `readOnly` and this message, the same in both clients:
+  `Unfold doesn't let agents make changes. The user can turn on "Agents can make changes" in Unfold's
+  Settings › AI Agents.`
+- The writes are `tasks add`, `tasks update`, `tasks schedule`, `tasks unschedule`,
+  `tasks complete`, `tasks reopen`, `tasks delete` and `projects add`. Everything else works as
+  usual, `sync` and `sync --open` included: they change no data.
+- The command is read first, so one that can't be read is still `usage`. A write that can be read
+  fails with `readOnly` before its values are checked or its id is looked up: nothing is saved,
+  queued or told to the app.
+- It isn't a lock against programs: anything that can run commands as the user can change the
+  app's files. It tells an agent following this contract that the user wants it to only look.
+
+## Last used by an agent
+
+Each command that can be read, other than `help` and `version`, records the time it ran for the
+app, which shows it as "last used by an agent". A command that then fails counts, a refused write
+included. Where the time is kept is the client's (on macOS the app's defaults, on Linux its state
+folder). It isn't part of any answer, and failing to record it doesn't fail the command.
+
 ## Telling the app
 
 After a write that changed something, the command line tells the app when it's running, whether or not
@@ -275,6 +302,7 @@ the app's presence given by the step, and compares everything.
     "linked": {"userId": "user_b", "email": "bob@example.com"},
     "appRunning": true,
     "canOpen": true,
+    "agentsCanChange": false,
     "ids": ["…"]
   },
   "args": ["tasks", "add", "--title", "Write launch post"],
@@ -288,7 +316,8 @@ the app's presence given by the step, and compares everything.
 ```
 
 - `given` is optional and its keys stay in force for the rest of the scene: the clock, the cached
-  account (`null` signs out), whether the app runs, whether it can be started. `ids` are added to the
+  account (`null` signs out), whether the app runs, whether it can be started, and the app's
+  "Agents can make changes" setting (`true` until a step says otherwise). `ids` are added to the
   ids the next creates use, in order. `linked` links the database to that account, once.
 - The scene's time zone is the file's `timeZone`, and the app version its `appVersion`. `$PLATFORM` in
   an expected value stands for the client's platform.

@@ -219,6 +219,7 @@ The command list as text.
 | `notFound` | 1 | No task or project with that id. |
 | `database` | 1 | The app's database couldn't be opened, read or written. |
 | `appUnavailable` | 1 | `sync --open` couldn't start Unfold. |
+| `readOnly` | 1 | A change while the user has turned off "Agents can make changes" in Unfold's Settings › AI Agents. Nothing was saved; reading still works. Only the user can turn it on, in the app. |
 | `notInstalled` | 1 | From the launcher: Unfold isn't on this computer. |
 | `updateRequired` | 1 | From the launcher: the installed Unfold has no command line yet, or an older one than this skill speaks. |
 | `skillUpdateRequired` | 1 | From the launcher: the installed Unfold's command line is newer than this skill speaks. |

@@ -42,7 +42,7 @@ agent ── skills/unfold/SKILL.md ── scripts/unfold ──▶ the app's ow
 |---|---|
 | `skills/unfold/` | What gets installed: `SKILL.md`, the launcher `scripts/unfold`, and `references/commands.md`. |
 | `contract/README.md` | The command line's contract, which both clients follow. |
-| `contract/transcript.json` | The contract as a test: six scenes of steps both clients replay against their real store. Written by `contract/transcript.py`; never edit it by hand. |
+| `contract/transcript.json` | The contract as a test: seven scenes of steps both clients replay against their real store. Written by `contract/transcript.py`; never edit it by hand. |
 | `contract/help.txt` | The `help` text, the same in both clients. |
 | `tests/` | The launcher against fake apps; the contract's files against each other and the clients' copies; the clients' real binaries against the transcript. |
 | `evals/evals.json` | Prompts to try the skill with an agent. |

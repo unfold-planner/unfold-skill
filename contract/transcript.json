@@ -4641,6 +4641,334 @@
           ]
         }
       ]
+    },
+    {
+      "name": "changes turned off",
+      "steps": [
+        {
+          "name": "adding a task is refused",
+          "given": {
+            "now": "2026-10-01T07:40:00Z",
+            "account": {
+              "userId": "user_a",
+              "email": "ada@example.com",
+              "plan": "premium"
+            },
+            "appRunning": true,
+            "agentsCanChange": false
+          },
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "Write launch post"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "readOnly",
+              "message": "Unfold doesn't let agents make changes. The user can turn on \"Agents can make changes\" in Unfold's Settings › AI Agents."
+            }
+          }
+        },
+        {
+          "name": "adding a project",
+          "args": [
+            "projects",
+            "add",
+            "--name",
+            "Launch"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "readOnly",
+              "message": "Unfold doesn't let agents make changes. The user can turn on \"Agents can make changes\" in Unfold's Settings › AI Agents."
+            }
+          }
+        },
+        {
+          "name": "before its values are checked",
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "   "
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "readOnly",
+              "message": "Unfold doesn't let agents make changes. The user can turn on \"Agents can make changes\" in Unfold's Settings › AI Agents."
+            }
+          }
+        },
+        {
+          "name": "and before its id is looked up",
+          "args": [
+            "tasks",
+            "complete",
+            "nope"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "readOnly",
+              "message": "Unfold doesn't let agents make changes. The user can turn on \"Agents can make changes\" in Unfold's Settings › AI Agents."
+            }
+          }
+        },
+        {
+          "name": "a write that can't be read is still usage",
+          "args": [
+            "tasks",
+            "add"
+          ],
+          "exit": 2,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "usage",
+              "message": "\"tasks add\" needs --title."
+            }
+          }
+        },
+        {
+          "name": "reading works",
+          "args": [
+            "tasks",
+            "list",
+            "--status",
+            "all"
+          ],
+          "exit": 0,
+          "stdout": {
+            "tasks": []
+          },
+          "stderr": null
+        },
+        {
+          "name": "so does status",
+          "args": [
+            "status"
+          ],
+          "exit": 0,
+          "stdout": {
+            "contract": 1,
+            "app": {
+              "platform": "$PLATFORM",
+              "version": "0.1.0",
+              "running": true
+            },
+            "account": {
+              "email": "ada@example.com",
+              "plan": "premium"
+            },
+            "sync": {
+              "state": "syncing",
+              "reason": null,
+              "pendingChanges": 0
+            },
+            "timeZone": "Europe/Warsaw",
+            "now": "2026-10-01T09:40:00+02:00"
+          },
+          "stderr": null
+        },
+        {
+          "name": "and sync, which changes nothing",
+          "args": [
+            "sync"
+          ],
+          "exit": 0,
+          "stdout": {
+            "sync": {
+              "state": "syncing",
+              "reason": null,
+              "pendingChanges": 0
+            },
+            "opened": false
+          },
+          "stderr": null,
+          "notified": 1
+        },
+        {
+          "name": "turned on, a write works",
+          "given": {
+            "agentsCanChange": true,
+            "ids": [
+              "00000000-0000-4000-8000-000000000001"
+            ]
+          },
+          "args": [
+            "tasks",
+            "add",
+            "--title",
+            "Write launch post"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000001",
+              "title": "Write launch post",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": null,
+              "sessions": [],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:40:00+02:00"
+            },
+            "sync": {
+              "state": "syncing",
+              "reason": null,
+              "pendingChanges": 1
+            }
+          },
+          "stderr": null,
+          "queued": [
+            {
+              "kind": "createTodo",
+              "id": "00000000-0000-4000-8000-000000000001",
+              "body": {
+                "id": "00000000-0000-4000-8000-000000000001",
+                "title": "Write launch post",
+                "createdAt": "2026-10-01T07:40:00.000Z"
+              }
+            }
+          ],
+          "notified": 1
+        },
+        {
+          "name": "turned off again, updating it is refused",
+          "given": {
+            "agentsCanChange": false
+          },
+          "args": [
+            "tasks",
+            "update",
+            "00000000-0000-4000-8000-000000000001",
+            "--title",
+            "Renamed"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "readOnly",
+              "message": "Unfold doesn't let agents make changes. The user can turn on \"Agents can make changes\" in Unfold's Settings › AI Agents."
+            }
+          }
+        },
+        {
+          "name": "scheduling it",
+          "args": [
+            "tasks",
+            "schedule",
+            "00000000-0000-4000-8000-000000000001",
+            "--day",
+            "2026-10-02"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "readOnly",
+              "message": "Unfold doesn't let agents make changes. The user can turn on \"Agents can make changes\" in Unfold's Settings › AI Agents."
+            }
+          }
+        },
+        {
+          "name": "unscheduling it",
+          "args": [
+            "tasks",
+            "unschedule",
+            "00000000-0000-4000-8000-000000000001"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "readOnly",
+              "message": "Unfold doesn't let agents make changes. The user can turn on \"Agents can make changes\" in Unfold's Settings › AI Agents."
+            }
+          }
+        },
+        {
+          "name": "completing it",
+          "args": [
+            "tasks",
+            "complete",
+            "00000000-0000-4000-8000-000000000001"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "readOnly",
+              "message": "Unfold doesn't let agents make changes. The user can turn on \"Agents can make changes\" in Unfold's Settings › AI Agents."
+            }
+          }
+        },
+        {
+          "name": "reopening it",
+          "args": [
+            "tasks",
+            "reopen",
+            "00000000-0000-4000-8000-000000000001"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "readOnly",
+              "message": "Unfold doesn't let agents make changes. The user can turn on \"Agents can make changes\" in Unfold's Settings › AI Agents."
+            }
+          }
+        },
+        {
+          "name": "deleting it",
+          "args": [
+            "tasks",
+            "delete",
+            "00000000-0000-4000-8000-000000000001"
+          ],
+          "exit": 1,
+          "stdout": null,
+          "stderr": {
+            "error": {
+              "code": "readOnly",
+              "message": "Unfold doesn't let agents make changes. The user can turn on \"Agents can make changes\" in Unfold's Settings › AI Agents."
+            }
+          }
+        },
+        {
+          "name": "the task is as it was",
+          "args": [
+            "tasks",
+            "show",
+            "00000000-0000-4000-8000-000000000001"
+          ],
+          "exit": 0,
+          "stdout": {
+            "task": {
+              "id": "00000000-0000-4000-8000-000000000001",
+              "title": "Write launch post",
+              "notes": null,
+              "completed": false,
+              "project": null,
+              "estimateMinutes": null,
+              "sessions": [],
+              "deadline": null,
+              "createdAt": "2026-10-01T09:40:00+02:00"
+            }
+          },
+          "stderr": null
+        }
+      ]
     }
   ]
 }
