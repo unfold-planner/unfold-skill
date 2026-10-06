@@ -2,9 +2,10 @@
 //
 // Each client replays the whole transcript inside its own tests, where the clock, the ids, the
 // account and the running app can all be set. From outside a binary only some of that can be:
-// the clock (UNFOLD_NOW), the time zone (TZ) and where the data lives. So this replays the scenes
-// that need nothing else (signed out, no app to tell) against the Linux client's binary, which
-// runs on macOS too, and checks the Mac app's binary with the commands that touch no database.
+// the clock (UNFOLD_NOW), the time zone (TZ) and where the data lives; the app's version is the
+// binary's own. So this replays the scenes that need nothing else (signed out, no app to tell)
+// against the Linux client's binary, which runs on macOS too, and checks the Mac app's binary
+// with the commands that touch no database.
 //
 //   UNFOLD_LINUX_BIN   the Linux client's binary (default ../unfold-omarchy/target/debug/unfold); a
 //                      debug build, or one with the debug-tools feature, which follows UNFOLD_HOME
@@ -177,9 +178,17 @@ describe.skipIf(!hasLinuxBinary)("the Linux client's binary, through the launche
           } else if (step.stdout === null) {
             expect({ label, stdout: run.stdout }).toEqual({ label, stdout: "" });
           } else {
-            // Whether the app runs on this machine isn't the test's to say.
+            // Whether the app runs on this machine isn't the test's to say, nor which version
+            // the binary was built as: the transcript's appVersion is for replays that set it.
             if (actual?.app && "running" in actual.app) {
               actual.app.running = (step.stdout as any).app.running;
+            }
+            if (actual?.app && "version" in actual.app) {
+              expect({ label, version: actual.app.version }).toEqual({
+                label,
+                version: expect.stringMatching(/^\d+\.\d+/),
+              });
+              actual.app.version = (step.stdout as any).app.version;
             }
             const answer = tiesByExpectedId(JSON.parse(swap(JSON.stringify(actual), made)));
             expect({ label, stdout: canonical(answer) }).toEqual({
