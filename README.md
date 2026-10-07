@@ -5,7 +5,7 @@ runs. With the skill installed, an agent (Claude Code, Codex, Cursor and others)
 change the user's tasks, projects and calendar time in the Unfold app on their computer.
 
 ```sh
-npx skills add nemira-labs/skills --skill unfold
+npx skills add unfold-planner/unfold-skill --skill unfold
 ```
 
 That's all a user does. There is nothing else to install and nothing to sign in to: the command
@@ -46,7 +46,7 @@ agent ── skills/unfold/SKILL.md ── scripts/unfold ──▶ the app's ow
 | `contract/help.txt` | The `help` text, the same in both clients. |
 | `tests/` | The launcher against fake apps; the contract's files against each other and the clients' copies; the clients' real binaries against the transcript. |
 | `evals/evals.json` | Prompts to try the skill with an agent. |
-| `scripts/` | `check.sh` (done means this passes), `e2e-mac.sh`, `publish.sh`. |
+| `scripts/` | `check.sh` (done means this passes), `e2e-mac.sh`. |
 
 The command line itself is in the clients: `unfold/Unfold/CLI/` (Swift) and
 `unfold-omarchy/crates/unfold-core/src/cli/` (Rust).
@@ -115,13 +115,9 @@ a throwaway database, never the user's own:
 
 ## Publishing
 
-The public [nemira-labs/skills](https://github.com/nemira-labs/skills) is what `npx skills add`
-installs from; this repo is the source.
+This public repository, [unfold-planner/unfold-skill](https://github.com/unfold-planner/unfold-skill),
+is the sole source and install location. `npx skills add` discovers `skills/unfold/` directly here;
+there is no copy in a separate skills collection.
 
-```sh
-scripts/publish.sh <checkout of nemira-labs/skills>
-```
-
-It runs the check, copies `skills/unfold/` into the checkout and stops. Review the diff, add
-`unfold` to that repo's README table, then commit and push there. Publish only once both apps
-with the command line are released: on an older app the skill answers `updateRequired`.
+Review changes, run `bun run check`, then commit and push here when publishing is requested.
+The Mac and Linux apps carry contract 1 since v0.2.0; an older app answers `updateRequired`.

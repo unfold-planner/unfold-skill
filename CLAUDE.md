@@ -35,5 +35,5 @@ scripts/e2e-mac.sh                    # opens a stubbed Unfold window; run after
   `UNFOLD_DATABASE` pointing at a throwaway folder for real binaries. A release build ignores
   both, so fail closed: give the process a throwaway `HOME` and XDG folders too, and check the
   build before a command that opens a database (`e2e-mac.sh` reads `UnfoldBuildConfiguration`).
-- Publishing (`scripts/publish.sh`, pushing to `nemira-labs/skills`) is outward-facing: only when
-  asked. Commit only when asked.
+- This public repo (`unfold-planner/unfold-skill`) is the sole source and install location. Do not
+  copy the skill into another repo. Publishing is outward-facing: push and commit only when asked.
